@@ -32,7 +32,8 @@ const scoreDisplay = document.getElementById('score');
 const gameOverContainer = document.getElementById('game-over-container');
 const finalScore = document.getElementById('final-score');
 const restartButton = document.getElementById('restart-button');
-const foodSound = document.getElementById('food-sound'); // Récupérer l'élément audio
+const foodSound = document.getElementById('food-sound'); // Récupérer l'élément audio pour la nourriture
+const jumpSound = document.getElementById('jump-sound'); // Récupérer l'élément audio pour le saut
 
 document.addEventListener('keydown', function (event) {
     if (!gameRunning) {
@@ -50,6 +51,7 @@ document.addEventListener('keydown', function (event) {
         // Saut normal à tout moment
         dino.velocityY = -dino.jumpPower;
         dino.jumps++;
+        playSound(jumpSound); // Jouer le son du saut
     }
 });
 
@@ -60,6 +62,7 @@ document.addEventListener('keyup', function (event) {
             // Saut chargé
             dino.velocityY = -dino.chargeJumpPower;
             dino.jumpCharge = 0;
+            playSound(jumpSound); // Jouer le son du saut
         }
     }
 });
