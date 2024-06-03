@@ -32,6 +32,7 @@ const scoreDisplay = document.getElementById('score');
 const gameOverContainer = document.getElementById('game-over-container');
 const finalScore = document.getElementById('final-score');
 const restartButton = document.getElementById('restart-button');
+const foodSound = document.getElementById('food-sound'); // Récupérer l'élément audio
 
 document.addEventListener('keydown', function (event) {
     if (!gameRunning) {
@@ -84,6 +85,11 @@ function gameOver() {
     finalScore.textContent = 'Score: ' + score;
     gameOverContainer.classList.remove('hidden');
     gameRunning = false;
+}
+
+function playSound(sound) {
+    const clone = sound.cloneNode();
+    clone.play();
 }
 
 function update() {
@@ -172,6 +178,7 @@ function update() {
             dino.y + dino.height > food.y) {
             foods.splice(index, 1);
             calories = Math.min(100, calories + 20);
+            playSound(foodSound); // Jouer le son lorsqu'un aliment est récupéré
         }
     });
 
