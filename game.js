@@ -35,8 +35,10 @@ const scoreDisplay = document.getElementById('score');
 const gameOverContainer = document.getElementById('game-over-container');
 const finalScore = document.getElementById('final-score');
 const restartButton = document.getElementById('restart-button');
-const foodSound = document.getElementById('food-sound'); // Récupérer l'élément audio pour la nourriture
-const jumpSound = document.getElementById('jump-sound'); // Récupérer l'élément audio pour le saut
+const foodSound = document.getElementById('food-sound');
+const jumpSound = document.getElementById('jump-sound');
+const BonusSound = document.getElementById('bonus-sound');
+const DebuffsSound = document.getElementById('debuffs-sound'); 
 
 const bonusTypes = {
     BOOST: 'BOOST',
@@ -224,7 +226,7 @@ function update() {
             calories = Math.min(100, calories + effect.calories);
             dino.speedBoost = effect.speedBoost;
             dino.speedBoostDuration = effect.duration;
-            playSound(foodSound); // Jouer le son lorsqu'un bonus est récupéré
+            playSound(bonus-sound); // Jouer le son lorsqu'un bonus est récupéré
         }
     });
 
