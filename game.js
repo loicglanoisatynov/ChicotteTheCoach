@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
+//test
 const dino = {
     x: 50,
     y: canvas.height - 70,
