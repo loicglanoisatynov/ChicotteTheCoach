@@ -17,7 +17,7 @@ const dino = {
     isChargingJump: false,
     jumpCharge: 0,
     maxJumpCharge: 100,
-    chargeJumpPower: 30 // Puissance du saut chargé
+    chargeJumpPower: 30 
 };
 
 const obstacles = [];
@@ -32,8 +32,8 @@ const scoreDisplay = document.getElementById('score');
 const gameOverContainer = document.getElementById('game-over-container');
 const finalScore = document.getElementById('final-score');
 const restartButton = document.getElementById('restart-button');
-const foodSound = document.getElementById('food-sound'); // Récupérer l'élément audio pour la nourriture
-const jumpSound = document.getElementById('jump-sound'); // Récupérer l'élément audio pour le saut
+const foodSound = document.getElementById('food-sound'); 
+const jumpSound = document.getElementById('jump-sound'); 
 
 document.addEventListener('keydown', function (event) {
     if (!gameRunning) {
@@ -44,14 +44,13 @@ document.addEventListener('keydown', function (event) {
     }
 
     if (event.key === 'Shift') {
-        dino.isChargingJump = true; // Commence le chargement du saut
+        dino.isChargingJump = true; 
     }
 
     if (event.key === ' ' && dino.jumps < dino.maxJumps) {
-        // Saut normal à tout moment
         dino.velocityY = -dino.jumpPower;
         dino.jumps++;
-        playSound(jumpSound); // Jouer le son du saut
+        playSound(jumpSound); 
     }
 });
 
@@ -185,7 +184,7 @@ function update() {
         }
     });
 
-    // Update calorie bar
+
     calories -= 0.1;
     if (calories <= 0) {
         gameOver();
