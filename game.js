@@ -5,7 +5,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const dino = {
-    x: 50,
+    x: 200,
     y: canvas.height - 70,
     width: 30,
     height: 30,
@@ -18,7 +18,7 @@ const dino = {
     jumpCharge: 0,
     maxJumpCharge: 100,
     chargeJumpPower: 30,
-    speed: 5,
+    speed: 4,
     speedBoost: 0,
     speedBoostDuration: 0
 };
@@ -33,6 +33,7 @@ let tickSinceLastObstacle = 0;
 let nextObstacle = 0;
 let tickSinceLastFood = 0;
 let nextFood = 0;
+let gameSpeed = 5;
 
 const calorieBar = document.getElementById('calorie-bar');
 const jumpBar = document.getElementById('jump-bar');
@@ -66,8 +67,12 @@ var chargeKeyBind = 'Shift';
 
 document.getElementById('updateKB').addEventListener('click', function (e) {
     e.preventDefault();
-    jumpKeyBind = document.getElementById('jump-key').value;
-    chargeKeyBind = document.getElementById('charge-key').value;
+    if(document.getElementById('jump-key').value != '') {
+        jumpKeyBind = document.getElementById('jump-key').value;
+    }
+    if(document.getElementById('charge-key').value != '') {
+        chargeKeyBind = document.getElementById('charge-key').value;
+    }
     document.getElementById('input-container').classList.add('hidden');
     gameRunning = true;
     }
@@ -162,11 +167,13 @@ function update() {
         // Update dino
         dino.y += dino.velocityY;
         if (dino.y < canvas.height - dino.height) {
+            dino.x +=dino.speedBoost;
             dino.velocityY += dino.gravity;
         } else {
             dino.y = canvas.height - dino.height;
             dino.velocityY = 0;
             dino.jumps = 0;
+            dino.x +=(dino.speed + dino.speedBoost) - gameSpeed;
         }
         ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
@@ -194,7 +201,6 @@ function update() {
 
     // Add food
     if (tickSinceLastFood > nextFood && Math.random() < 0.07) {
-        console.log('Adding food');
         const bonusType = getRandomBonusType();
         bonuses.push({
             x: canvas.width,
@@ -210,7 +216,7 @@ function update() {
 
     // Update obstacles
     for (let i = obstacles.length - 1; i >= 0; i--) {
-        obstacles[i].x -= dino.speed + dino.speedBoost;
+        obstacles[i].x -= gameSpeed;
         if (obstacles[i].x + obstacles[i].width < 0) {
             obstacles.splice(i, 1);
             score++;
@@ -222,7 +228,7 @@ function update() {
 
     // Update bonuses
     for (let i = bonuses.length - 1; i >= 0; i--) {
-        bonuses[i].x -= dino.speed + dino.speedBoost;
+        bonuses[i].x -= gameSpeed;
         if (bonuses[i].x + bonuses[i].width < 0) {
             bonuses.splice(i, 1);
         } else {
@@ -246,29 +252,46 @@ function update() {
                 dino.x + dino.width > obstacle.x &&
                 dino.y < obstacle.y + obstacle.height &&
                 dino.y + dino.height > obstacle.y) {
-                gameOver();
+                    // Apply knockback animation
+                    dino.velocityY = -dino.jumpPower / 2;
+                    dino.jumps = 2;
+                    dino.speedBoost = -3;
+                    dino.speedBoostDuration = 20;
+                    obstacles.splice(0, 1);
                 return;
+                }
+            });
+
+        bonuses.forEach((bonus, index) => {
+            if (dino.x < bonus.x + bonus.width &&
+                dino.x + dino.width > bonus.x &&
+                dino.y < bonus.y + bonus.height &&
+                dino.y + dino.height > bonus.y) {
+                bonuses.splice(index, 1);
+
+                const effect = bonusData[bonus.type];
+                calories = Math.min(100, calories + effect.calories);
+                dino.speedBoost = effect.speedBoost;
+                dino.speedBoostDuration = effect.duration;
+                playSound(foodSound); // Jouer le son lorsqu'un bonus est récupéré
             }
         });
 
-    bonuses.forEach((bonus, index) => {
-        if (dino.x < bonus.x + bonus.width &&
-            dino.x + dino.width > bonus.x &&
-            dino.y < bonus.y + bonus.height &&
-            dino.y + dino.height > bonus.y) {
-            bonuses.splice(index, 1);
-
-            const effect = bonusData[bonus.type];
-            calories = Math.min(100, calories + effect.calories);
-            dino.speedBoost = effect.speedBoost;
-            dino.speedBoostDuration = effect.duration;
-            playSound(foodSound); // Jouer le son lorsqu'un bonus est récupéré
-        }
-    });
 
         // Update calorie bar
-        calories -= 0.1;
-        if (calories <= 0) {
+        calories -= 0.04;
+        if (calories > 80) {
+            calorieBar.style.backgroundColor = 'red';
+            dino.speed = 4.9;
+            console.log("too fat");
+        }else if (calories > 30) {
+            calorieBar.style.backgroundColor = 'green';
+            dino.speed = 5;
+        }else {
+            calorieBar.style.backgroundColor = 'yellow';
+            dino.speed = 5;
+        }
+        if (calories <= 0 || dino.x < 20) {
             gameOver();
             return;
         }

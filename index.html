@@ -28,8 +28,15 @@
     <audio id="jump-sound" src="/sounds/Character/jumping.wav" preload="auto"></audio>
     <audio id="food-sound" src="/sounds/Items/Food.wav" preload="auto"></audio>
     <div id="input-container" class="hidden">
-        <input id="jump-key">
-        <input id="charge-key">
+        <h2 class="options">Change keys</h2>
+        <div class="option-row">
+            <p>Jump key</p>
+            <input class="options" id="jump-key">
+        </div>
+        <div class="option-row">
+            <p>Charge key</p>
+            <input class="options" id="charge-key">
+        </div>
         <button id="updateKB">Save changes</button>
     </div>
     <script src="game.js"></script>
