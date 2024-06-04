@@ -179,26 +179,34 @@ function update() {
         }
         jumpBar.style.width = (dino.jumpCharge / dino.maxJumpCharge) * 100 + '%';
 
-    // Add obstacles and bonuses
-    if (frame % 100 === 0) {
+    // Add obstacles
+    if (tickSinceLastObstacle > nextObstacle) {
         const obstacleWidth = Math.random() * 50 + 20;
         const obstacleHeight = Math.random() * 50 + 20;
         const obstacleX = canvas.width;
         const obstacleY = canvas.height - obstacleHeight;
 
         obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight });
-
-        if (Math.random() < 0.5) {
-            const bonusType = getRandomBonusType();
-            bonuses.push({
-                x: obstacleX,
-                y: obstacleY - 40,
-                width: 30,
-                height: 30,
-                type: bonusType
-            });
-        }
+        tickSinceLastObstacle = 0;
+        nextObstacle = Math.floor(Math.random() * 200 + 20);  
     }
+    tickSinceLastObstacle++;
+
+    // Add food
+    if (tickSinceLastFood > nextFood && Math.random() < 0.07) {
+        console.log('Adding food');
+        const bonusType = getRandomBonusType();
+        bonuses.push({
+            x: canvas.width,
+            y: (canvas.height * 0.4) + Math.random() * (canvas.height * 0.5 - 30),
+            width: 30,
+            height: 30,
+            type: bonusType
+        });
+        tickSinceLastFood = 0;
+        nextFood = Math.floor(Math.random() * 250 + 50);
+    }
+    tickSinceLastFood++;
 
     // Update obstacles
     for (let i = obstacles.length - 1; i >= 0; i--) {
