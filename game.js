@@ -4,6 +4,8 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+
+
 const dino = {
     x: 200,
     y: canvas.height - 70,
@@ -64,9 +66,9 @@ const bonusTypes = {
 };
 
 const bonusData = {
-    BOOST: { calories: 0, speedBoost: 2, duration: 100, color: 'blue', sound: buffSound },
-    FAT: { calories: 40, speedBoost: -1, duration: 50, color: 'brown', sound: debuffSound },
-    FIT: { calories: 20, speedBoost: 1, duration: 50, color: 'green', sound: buffSound }
+    BOOST: {calories: 0, speedBoost: 2, duration: 100, color: 'blue', sound: buffSound},
+    FAT: {calories: 40, speedBoost: -1, duration: 50, color: 'brown', sound: debuffSound},
+    FIT: {calories: 20, speedBoost: 1, duration: 50, color: 'green', sound: buffSound}
 };
 
 const bonusItems = {
@@ -80,17 +82,17 @@ var chargeKeyBind = 'Shift';
 
 document.getElementById('updateKB').addEventListener('click', function (e) {
     e.preventDefault();
-    if(document.getElementById('jump-key').value != '') {
+    if (document.getElementById('jump-key').value != '') {
         jumpKeyBind = document.getElementById('jump-key').value;
     }
-    if(document.getElementById('charge-key').value != '') {
+    if (document.getElementById('charge-key').value != '') {
         chargeKeyBind = document.getElementById('charge-key').value;
     }
     inputContainer.classList.add('hidden');
     mainMenu.classList.remove('hidden');
 });
 
-returnButton.addEventListener('click', function(e) {
+returnButton.addEventListener('click', function (e) {
     e.preventDefault();
     inputContainer.classList.add('hidden');
     mainMenu.classList.remove('hidden');
@@ -102,13 +104,13 @@ optionsButton.addEventListener('click', function (e) {
     gameRunning = !gameRunning;
 });
 
-menuOptionsButton.addEventListener('click', function(e) {
+menuOptionsButton.addEventListener('click', function (e) {
     e.preventDefault();
     mainMenu.classList.add('hidden');
     inputContainer.classList.remove('hidden');
 });
 
-startButton.addEventListener('click', function(e) {
+startButton.addEventListener('click', function (e) {
     e.preventDefault();
     mainMenu.classList.add('hidden');
     gameContainer.classList.remove('hidden');
@@ -186,7 +188,7 @@ function gameOver() {
 
 function updateScoreboard(username, score) {
     let scoreboard = JSON.parse(localStorage.getItem('scoreboard')) || [];
-    scoreboard.push({ username, score });
+    scoreboard.push({username, score});
     scoreboard.sort((a, b) => b.score - a.score);
     if (scoreboard.length > 10) {
         scoreboard.pop();
@@ -241,7 +243,7 @@ function update() {
             const obstacleX = canvas.width;
             const obstacleY = canvas.height - obstacleHeight;
 
-            obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight });
+            obstacles.push({x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight});
             tickSinceLastObstacle = 0;
             nextObstacle = Math.floor(Math.random() * 200 + 20);
         }
@@ -339,11 +341,57 @@ function update() {
         frame++;
     }
     requestAnimationFrame(update);
+    const backgroundImage = new Image();
+    backgroundImage.src = 'image/city_background.png';
+
+    const cloudImages = [
+        { image: new Image(), x: canvas.width, y: 50, speed: 2 },
+        { image: new Image(), x: canvas.width * 1.5, y: 150, speed: 1.5 },
+    ];
+
+    cloudImages[0].image.src = 'image/cloud1.png';
+    cloudImages[1].image.src = 'image/cloud2.png';
+
+    let bgX = 0;
+
+    function updateBackground() {
+        bgX -= gameSpeed;
+        if (bgX <= -canvas.width) {
+            bgX = 0;
+        }
+        ctx.drawImage(backgroundImage, bgX, 0, canvas.width, canvas.height);
+        ctx.drawImage(backgroundImage, bgX + canvas.width, 0, canvas.width, canvas.height);
+    }
+
+    function updateClouds() {
+        cloudImages.forEach(cloud => {
+            cloud.x -= cloud.speed;
+            if (cloud.x <= -cloud.image.width) {
+                cloud.x = canvas.width;
+            }
+            ctx.drawImage(cloud.image, cloud.x, cloud.y);
+        });
+    }
+    const groundImage = new Image();
+    groundImage.src = 'image/ground.png';
+
+    let groundX = 0;
+
+    function updateGround() {
+        groundX -= gameSpeed;
+        if (groundX <= -canvas.width) {
+            groundX = 0;
+        }
+        ctx.drawImage(groundImage, groundX, canvas.height - groundImage.height, canvas.width, groundImage.height);
+        ctx.drawImage(groundImage, groundX + canvas.width, canvas.height - groundImage.height, canvas.width, groundImage.height);
+    }
+
 }
+
 
 restartButton.addEventListener('click', resetGame);
 
-returnToMenuButton.addEventListener('click', function() {
+returnToMenuButton.addEventListener('click', function () {
     gameContainer.classList.add('hidden');
     mainMenu.classList.remove('hidden');
 });
