@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container">
+    <div id="main-menu">
+        <h1>Jeu du Dino</h1>
+        <button id="start-button">Commencer</button>
+        <button id="menu-options-button">Options</button>
+    </div>
+    <div id="game-container" class="hidden">
         <canvas id="gameCanvas"></canvas>
         <div id="calorie-container">
             <div id="calorie-bar"></div>
@@ -38,6 +43,7 @@
             <input class="options" id="charge-key">
         </div>
         <button id="updateKB">Save changes</button>
+        <button id="return-button">Return</button>
     </div>
     <script src="game.js"></script>
 </body>
