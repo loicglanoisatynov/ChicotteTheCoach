@@ -114,11 +114,12 @@ document.addEventListener('keydown', function (event) {
 document.addEventListener('keyup', function (event) {
     if (event.key === chargeKeyBind && dino.isChargingJump) {
         dino.isChargingJump = false;
-        if (dino.jumpCharge >= dino.maxJumpCharge) {
+        if (dino.jumpCharge >= dino.maxJumpCharge && dino.jumps < dino.maxJumps) {
             // Saut chargé
             dino.velocityY = -dino.chargeJumpPower;
             dino.jumpCharge = 0;
             playSound(jumpSound); // Jouer le son du saut
+            dino.jumps++;
         }
     }
 });
