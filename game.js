@@ -44,6 +44,8 @@ const restartButton = document.getElementById('restart-button');
 const returnToMenuButton = document.getElementById('return-to-menu-button');
 const foodSound = document.getElementById('food-sound');
 const jumpSound = document.getElementById('jump-sound');
+const buffSound = document.getElementById('buff-sound');
+const debuffSound = document.getElementById('debuff-sound');
 const scoreboardContainer = document.getElementById('scoreboard');
 
 const mainMenu = document.getElementById('main-menu');
@@ -62,9 +64,9 @@ const bonusTypes = {
 };
 
 const bonusData = {
-    BOOST: { calories: 0, speedBoost: 2, duration: 100, color: 'blue' },
-    FAT: { calories: 40, speedBoost: -1, duration: 50, color: 'brown' },
-    FIT: { calories: 20, speedBoost: 1, duration: 50, color: 'green' }
+    BOOST: { calories: 0, speedBoost: 2, duration: 100, color: 'blue', sound: buffSound },
+    FAT: { calories: 40, speedBoost: -1, duration: 50, color: 'brown', sound: debuffSound },
+    FIT: { calories: 20, speedBoost: 1, duration: 50, color: 'green', sound: buffSound }
 };
 
 const bonusItems = {
@@ -313,7 +315,7 @@ function update() {
                 calories = Math.min(100, calories + effect.calories);
                 dino.speedBoost = effect.speedBoost;
                 dino.speedBoostDuration = effect.duration;
-                playSound(foodSound);
+                playSound(effect.sound);  // Play appropriate sound
             }
         });
 
