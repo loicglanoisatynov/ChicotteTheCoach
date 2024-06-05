@@ -153,3 +153,32 @@ body {
     justify-content: space-between;
     margin: 10px;
 }
+
+#scoreboard {
+    margin-top: 20px;
+    text-align: left;
+}
+
+#scoreboard h2 {
+    margin: 0;
+    padding: 0;
+}
+
+#scoreboard ul {
+    list-style: none;
+    padding: 0;
+}
+
+#scoreboard li {
+    margin: 5px 0;
+}
+
+#username {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 16px;
+    width: 80%;
+    max-width: 300px;
+    text-align: center;
+}
