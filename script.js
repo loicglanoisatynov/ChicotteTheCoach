@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Exemple d'utilisation de cloneNode avec vérification
+
 function playSound() {
     var soundElement = document.querySelector("#sound-element-id");
     
@@ -42,13 +42,12 @@ function playSound() {
     }
 }
 
-// Fonction de mise à jour avec vérification de l'élément
+
 function update() {
     var elements = document.querySelectorAll(".update-elements");
 
     elements.forEach(function(element) {
         if (element) {
-            // Logique de mise à jour de l'élément
         }
     });
 }

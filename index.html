@@ -15,7 +15,8 @@
         <button id="start-button">Commencer</button>
         <button id="menu-options-button">Options</button>
         <button id="menu-credits-button">Crédits</button>
-        <button id="menu-shop-button">Shop</button> <!-- Nouveau bouton ajouté ici -->
+        <button id="menu-shop-button">Shop</button>
+        <button id="menu-shop-button">Commande : Espace pour sauter (Double saut) I  Shift pour Charger le saut</button>
     </div>
     <div id="game-container" class="hidden">
         <canvas id="gameCanvas"></canvas>
@@ -179,10 +180,17 @@
             "retina_detect": true
         });
 
-       
+
         document.addEventListener('DOMContentLoaded', function () {
             const foodIconsContainer = document.getElementById('food-icons-container');
-            const foodImages = ['image/Menu/apple.png', 'image/Menu/boiledegg.png', 'image/Menu/lettuce.png', 'image/Menu/salad.png', 'image/Menu/banana.png', 'image/Menu/watermelon.png']; 
+            const foodImages = [
+                'image/Menu/apple.png', 
+                'image/Menu/boiledegg.png', 
+                'image/Menu/lettuce.png', 
+                'image/Menu/salad.png', 
+                'image/Menu/banana.png', 
+                'image/Menu/watermelon.png'
+            ];
 
             function createFoodIcon() {
                 const img = document.createElement('img');
@@ -192,6 +200,7 @@
                 img.style.left = Math.random() * 100 + 'vw';
                 foodIconsContainer.appendChild(img);
 
+      
                 function moveFoodIcon() {
                     img.style.top = Math.random() * 100 + 'vh';
                     img.style.left = Math.random() * 100 + 'vw';
@@ -200,7 +209,7 @@
                 setInterval(moveFoodIcon, 2000);
             }
 
-            for (let i = 0; i < 50; i++) { 
+            for (let i = 0; i < 76; i++) {
                 createFoodIcon();
             }
         });
