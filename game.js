@@ -102,6 +102,17 @@ const cloudImages = [
 cloudImages[0].image.src = 'image/img.png';
 cloudImages[1].image.src = 'image/img.png';
 
+const obstacleImages = [
+    'image/img_1.png',
+    'image/img_1.png',
+    'image/img_1.png'
+];
+const obstacleImageObjects = obstacleImages.map(src => {
+    const img = new Image();
+    img.src = src;
+    return img;
+});
+
 let bgX = 0;
 
 function updateBackground() {
@@ -116,7 +127,7 @@ function updateBackground() {
 function updateClouds() {
     cloudImages.forEach(cloud => {
         cloud.x -= cloud.speed;
-        if (cloud.x <= -cloud.image.width) {
+        if (cloud.x <= -cloud.image.width * 0.5) {
             cloud.x = canvas.width;
         }
         ctx.drawImage(cloud.image, cloud.x, cloud.y, cloud.image.width * 0.5, cloud.image.height * 0.5);
@@ -125,10 +136,10 @@ function updateClouds() {
 
 document.getElementById('updateKB').addEventListener('click', function (e) {
     e.preventDefault();
-    if(document.getElementById('jump-key').value != '') {
+    if (document.getElementById('jump-key').value != '') {
         jumpKeyBind = document.getElementById('jump-key').value;
     }
-    if(document.getElementById('charge-key').value != '') {
+    if (document.getElementById('charge-key').value != '') {
         chargeKeyBind = document.getElementById('charge-key').value;
     }
     inputContainer.classList.add('hidden');
@@ -237,11 +248,11 @@ function gameOver() {
 }
 
 function changeSkin(skin) {
-    dino.skin = 'runners/runner'+String(skin)+'.gif';
-    document.getElementById('select'+String(skin)).textContent = 'Selected';
-    document.getElementById('select'+String(skin)).disabled = true;
-    document.getElementById('select'+String(dino.skinNb)).textContent = 'Select';
-    document.getElementById('select'+String(dino.skinNb)).disabled = false;
+    dino.skin = 'runners/runner' + String(skin) + '.gif';
+    document.getElementById('select' + String(skin)).textContent = 'Selected';
+    document.getElementById('select' + String(skin)).disabled = true;
+    document.getElementById('select' + String(dino.skinNb)).textContent = 'Select';
+    document.getElementById('select' + String(dino.skinNb)).disabled = false;
     dino.skinNb = skin;
     document.getElementById('dinoSkin').src = dino.skin;
 }
@@ -333,8 +344,8 @@ function update() {
         ctx.color = 'black';
         // ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-        dinoDiv.style.left = (dino.x - 50)+ 'px';
-        dinoDiv.style.top = (dino.y-35)+ 'px';
+        dinoDiv.style.left = (dino.x - 50) + 'px';
+        dinoDiv.style.top = (dino.y - 35) + 'px';
 
         if (dino.isChargingJump) {
             dino.jumpCharge += 2;
@@ -349,8 +360,9 @@ function update() {
             const obstacleHeight = Math.random() * 50 + 20;
             const obstacleX = canvas.width;
             const obstacleY = canvas.height - obstacleHeight;
+            const obstacleImage = obstacleImageObjects[Math.floor(Math.random() * obstacleImageObjects.length)];
 
-            obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight });
+            obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight, image: obstacleImage });
             tickSinceLastObstacle = 0;
             nextObstacle = Math.floor(Math.random() * 200 + 20);
         }
@@ -377,7 +389,7 @@ function update() {
                 score++;
                 scoreDisplay.textContent = 'Score: ' + score;
             } else {
-                ctx.fillRect(obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
+                ctx.drawImage(obstacles[i].image, obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
             }
         }
 
