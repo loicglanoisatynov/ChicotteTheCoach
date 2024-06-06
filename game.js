@@ -16,7 +16,7 @@ let tickSinceLastFood = 0;
 let nextFood = 0;
 let gameSpeed = 3;
 let skin = 0;
-let totalSkins = 3;
+let totalSkins = 5;
 let speedCap = new Map();
 
 const dino = {
@@ -25,7 +25,7 @@ const dino = {
     width: 30,
     height: 30,
     velocityY: 0,
-    gravity: 1,
+    gravity: 0.6,
     jumpPower: 15,
     jumps: 0,
     maxJumps: 2,
@@ -87,9 +87,9 @@ const bonusData = {
 };
 
 const bonusItems = {
-    BOOST: ['barre de céréales', 'pot de protéines', 'boisson énergisante'],
-    FAT: ['Burger', 'Donut', 'Pizza'],
-    FIT: ['Pomme', 'Banane', 'Tomate', 'Oeufs', 'Salade']
+    BOOST: ['image/Menu/energydrink.png'],
+    FAT: ['image/Menu/burger.png', 'image/Menu/donut.png'],
+    FIT: ['image/Menu/apple.png', 'image/Menu/banana.png', 'image/Menu/watermelon.png', 'image/Menu/boiledegg.png', 'image/Menu/salad.png', 'image/Menu/carrot.png']
 };
 
 var jumpKeyBind = ' ';
@@ -337,8 +337,14 @@ function playSound(sound) {
 
 function getRandomBonusType() {
     const types = Object.keys(bonusTypes);
-    return bonusTypes[types[Math.floor(Math.random() * types.length)]];
+    var type = bonusTypes[types[Math.floor(Math.random() * types.length)]];
+    return type;
 }
+
+function getRandomBonusItem(type) {
+    return bonusItems[type][Math.floor(Math.random() * bonusItems[type].length)];
+}
+
 function getCookies(name) {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -382,9 +388,9 @@ function update() {
         }
         jumpBar.style.width = (dino.jumpCharge / dino.maxJumpCharge) * 100 + '%';
 
-        if (tickSinceLastObstacle > nextObstacle) {
-            const obstacleWidth = Math.random() * 50 + 20;
-            const obstacleHeight = Math.random() * 50 + 20;
+        if (tickSinceLastObstacle > nextObstacle && Math.random() < 0.1){
+            const obstacleWidth = Math.max(Math.random() * 150, 75);
+            const obstacleHeight = obstacleWidth / 2;
             const obstacleX = canvas.width;
             const obstacleY = canvas.height - obstacleHeight;
             const obstacleImage = obstacleImageObjects[Math.floor(Math.random() * obstacleImageObjects.length)];
@@ -396,14 +402,17 @@ function update() {
         tickSinceLastObstacle++;
 
         if (tickSinceLastFood > nextFood && Math.random() < 0.07) {
-            const bonusType = getRandomBonusType();
+            const bonusType= getRandomBonusType();
+            const path = getRandomBonusItem(bonusType);
             bonuses.push({
                 x: canvas.width,
-                y: (canvas.height * 0.4) + Math.random() * (canvas.height * 0.5 - 30),
-                width: 30,
-                height: 30,
-                type: bonusType
+                y: (canvas.height * 0.4) + Math.random() * (canvas.height * 0.5 - 75),
+                width: 75,
+                height: 75,
+                type: bonusType,
+                path: path
             });
+            console.log('Creating bonus', bonusType, path)
             tickSinceLastFood = 0;
             nextFood = Math.floor(Math.random() * 250 + 50);
         }
@@ -425,9 +434,9 @@ function update() {
             if (bonuses[i].x + bonuses[i].width < 0) {
                 bonuses.splice(i, 1);
             } else {
-                ctx.fillStyle = bonusData[bonuses[i].type].color;
-                ctx.fillRect(bonuses[i].x, bonuses[i].y, bonuses[i].width, bonuses[i].height);
-                ctx.fillStyle = 'black';
+                var img = new Image();
+                img.src = bonuses[i].path;
+                ctx.drawImage(img, bonuses[i].x, bonuses[i].y, bonuses[i].width, bonuses[i].height);
             }
         }
 
@@ -452,7 +461,7 @@ function update() {
 
                 dinoDiv.classList.toggle('hit');
                 setTimeout(() => {
-                    dinoDiv.classList.toggle('hit');
+                    dinoDiv.classList.remove('hit');
                 }, 300);
 
                 playSound(hitSound);
