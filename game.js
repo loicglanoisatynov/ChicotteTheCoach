@@ -54,7 +54,7 @@ const shopContainer = document.getElementById('shop-container');
 
 const restartButton = document.getElementById('restart-button');
 const returnToMenuButton = document.getElementById('return-to-menu-button');
-const shopButton = document.getElementById('shop-button');
+const shopButton = document.getElementById('menu-shop-button');
 const startButton = document.getElementById('start-button');
 const menuOptionsButton = document.getElementById('menu-options-button');
 const optionsButton = document.getElementById('options-button');
@@ -79,9 +79,9 @@ const bonusTypes = {
 };
 
 const bonusData = {
-    BOOST: { calories: 0, speedBoost: 2, duration: 100, color: 'blue', sound: buffSound },
-    FAT: { calories: 40, speedBoost: -1, duration: 50, color: 'brown', sound: debuffSound },
-    FIT: { calories: 20, speedBoost: 1, duration: 50, color: 'green', sound: buffSound }
+    BOOST: {calories: 0, speedBoost: 2, duration: 100, color: 'blue', sound: buffSound},
+    FAT: {calories: 40, speedBoost: -1, duration: 50, color: 'brown', sound: debuffSound},
+    FIT: {calories: 20, speedBoost: 1, duration: 50, color: 'green', sound: buffSound}
 };
 
 const bonusItems = {
@@ -94,10 +94,10 @@ const bonusItems = {
 
 document.getElementById('updateKB').addEventListener('click', function (e) {
     e.preventDefault();
-    if(document.getElementById('jump-key').value != '') {
+    if (document.getElementById('jump-key').value != '') {
         jumpKeyBind = document.getElementById('jump-key').value;
     }
-    if(document.getElementById('charge-key').value != '') {
+    if (document.getElementById('charge-key').value != '') {
         chargeKeyBind = document.getElementById('charge-key').value;
     }
     inputContainer.classList.add('hidden');
@@ -123,13 +123,13 @@ optionsButton.addEventListener('click', function (e) {
     gameRunning = !gameRunning;
 });
 
-menuOptionsButton.addEventListener('click', function(e) {
+menuOptionsButton.addEventListener('click', function (e) {
     e.preventDefault();
     mainMenu.classList.add('hidden');
     inputContainer.classList.remove('hidden');
 });
 
-startButton.addEventListener('click', function(e) {
+startButton.addEventListener('click', function (e) {
     e.preventDefault();
     mainMenu.classList.add('hidden');
     gameContainer.classList.remove('hidden');
@@ -235,17 +235,19 @@ function createShopItems() {
         var button = document.createElement('button');
         button.id = 'select' + (i + 1);
         button.className = 'select-button';
-        button.textContent = 'Select';
-        button.onclick = function() { changeSkin(i + 1); };
+        button.textContent = 'Select ' + (i + 1);
+        button.addEventListener('click', changeSkin.bind(null, i + 1));
         div.appendChild(button);
 
         shop.appendChild(div);
     }
+    document.getElementById('select1').textContent = 'Selected';
+    document.getElementById('select1').disabled = true;
 }
 
 function updateScoreboard(username, score) {
     let scoreboard = JSON.parse(localStorage.getItem('scoreboard')) || [];
-    scoreboard.push({ username, score });
+    scoreboard.push({username, score});
     scoreboard.sort((a, b) => b.score - a.score);
     if (scoreboard.length > 10) {
         scoreboard.pop();
@@ -281,9 +283,58 @@ function getCookies(name) {
     return '';
 }
 
+const backgroundImage = new Image();
+backgroundImage.src = 'image/city_background.png';
+
+const cloudImages = [
+    { image: new Image(), x: canvas.width, y: 50, speed: 2 },
+    { image: new Image(), x: canvas.width * 1.5, y: 150, speed: 1.5 },
+];
+
+cloudImages[0].image.src = 'image/cloud1.png';
+cloudImages[1].image.src = 'image/cloud2.png';
+
+const groundImage = new Image();
+groundImage.src = 'image/ground.png';
+
+let bgX = 0;
+let groundX = 0;
+
+function updateBackground() {
+    bgX -= gameSpeed;
+    if (bgX <= -canvas.width) {
+        bgX = 0;
+    }
+    ctx.drawImage(backgroundImage, bgX, 0, canvas.width, canvas.height);
+    ctx.drawImage(backgroundImage, bgX + canvas.width, 0, canvas.width, canvas.height);
+}
+
+function updateClouds() {
+    cloudImages.forEach(cloud => {
+        cloud.x -= cloud.speed;
+        if (cloud.x <= -cloud.image.width) {
+            cloud.x = canvas.width;
+        }
+        ctx.drawImage(cloud.image, cloud.x, cloud.y);
+    });
+}
+
+function updateGround() {
+    groundX -= gameSpeed;
+    if (groundX <= -canvas.width) {
+        groundX = 0;
+    }
+    ctx.drawImage(groundImage, groundX, canvas.height - groundImage.height, canvas.width, groundImage.height);
+    ctx.drawImage(groundImage, groundX + canvas.width, canvas.height - groundImage.height, canvas.width, groundImage.height);
+}
+
 function update() {
     if (gameRunning) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        updateBackground();
+        updateClouds();
+        updateGround();
 
         dino.y += dino.velocityY;
         if (dino.y < canvas.height - dino.height) {
@@ -315,7 +366,7 @@ function update() {
             const obstacleX = canvas.width;
             const obstacleY = canvas.height - obstacleHeight;
 
-            obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight });
+            obstacles.push({x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight});
             tickSinceLastObstacle = 0;
             nextObstacle = Math.floor(Math.random() * 200 + 20);
         }

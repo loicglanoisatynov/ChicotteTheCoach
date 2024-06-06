@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="particles-js"></div>
+    <!-- <div id="food-icons-container"></div>  -->
     <div id="main-menu">
         <h1>Chicotte The Coach</h1>
         <h2 id="pointcounter">Coins : 0</h2>
         <input type="text" id="username" placeholder="Entrez votre pseudo">
         <button id="start-button">Commencer</button>
         <button id="menu-options-button">Options</button>
-        <button id="shop-button">Shop</button>
+        <button id="menu-credits-button">Crédits</button>
+        <button id="menu-shop-button">Shop</button> <!-- Nouveau bouton ajouté ici -->
     </div>
     <div id="game-container" class="hidden">
         <canvas id="gameCanvas"></canvas>
@@ -33,29 +36,39 @@
         <div id="game-over-container" class="hidden">
             <h1>Game Over</h1>
             <p id="final-score">Score: 0</p>
-            <div id="scoreboard"></div>
+            <div id="scoreboard">
+                <img src="/image/Menu/DancingManScoreBoard.gif" alt="Votre GIF" id="scoreboard-gif">
+                <h2>Tableau des Scores</h2>
+                <ul>
+                    <li>Player 1: 100</li>
+                    <li>Player 2: 80</li>
+                    <li>Player 3: 60</li>
+                </ul>
+            </div>
             <button id="restart-button">Recommencer</button>
             <button onclick="returnMain()">Retour au menu</button>
         </div>
     </div>
-    <audio id="jump-sound" src="/sounds/character/jumping.wav" preload="auto"></audio>
-    <audio id="food-sound" src="/sounds/Items/Food.wav" preload="auto"></audio>
-    <audio id="buff-sound" src="/sounds/Items/Bonus.wav" preload="auto"></audio>
-    <audio id="debuff-sound" src="/sounds/Items/debuffs.wav" preload="auto"></audio>
-    <audio id="hit-sound" src="/sounds/character/hit.mp3" preload="auto"></audio>
-
     <div id="input-container" class="hidden">
-        <h2 class="options">Change keys</h2>
+        <h2 class="options">Changer les touches</h2>
         <div class="option-row">
-            <p>Jump key</p>
+            <p>Touche pour sauter</p>
             <input class="options" id="jump-key">
         </div>
         <div class="option-row">
-            <p>Charge key</p>
+            <p>Touche pour charger</p>
             <input class="options" id="charge-key">
         </div>
-        <button id="updateKB">Save changes</button>
-        <button onclick="returnMain()">Return</button>
+        <button id="updateKB">Sauvegarder</button>
+        <button onclick="returnMain()">Retour</button>
+    </div>
+    <div id="credits-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Crédits</h2>
+            <p>Créé par Hamed, Loic, Brandon, Tibor et Yassine</p>
+            <button id="close-credits-button">Fermer</button>
+        </div>
     </div>
     <div id="shop-container" class="hidden">
         <h2>Shop</h2>
@@ -63,7 +76,147 @@
         </div>
         <button onclick="returnMain()">Retour au menu</button>
     </div>
-    
+    <audio id="jump-sound" src="/sounds/character/jumping.wav" preload="auto"></audio>
+    <audio id="food-sound" src="/sounds/Items/Food.wav" preload="auto"></audio>
+    <audio id="buff-sound" src="/sounds/Items/Bonus.wav" preload="auto"></audio>
+    <audio id="debuff-sound" src="/sounds/Items/debuffs.wav" preload="auto"></audio>
+    <audio id="hit-sound" src="/sounds/character/hit.mp3" preload="auto"></audio>
+    <img src="/image/Menu/Micheal.gif" id="bottom-left-gif" alt="Animated GIF">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+       
+        document.addEventListener('DOMContentLoaded', function () {
+            const foodIconsContainer = document.getElementById('food-icons-container');
+            const foodImages = ['image/Menu/apple.png', 'image/Menu/boiledegg.png', 'image/Menu/lettuce.png', 'image/Menu/salad.png', 'image/Menu/banana.png', 'image/Menu/watermelon.png']; 
+
+            function createFoodIcon() {
+                const img = document.createElement('img');
+                img.src = foodImages[Math.floor(Math.random() * foodImages.length)];
+                img.classList.add('food-icon');
+                img.style.top = Math.random() * 100 + 'vh';
+                img.style.left = Math.random() * 100 + 'vw';
+                // foodIconsContainer.appendChild(img);
+
+                function moveFoodIcon() {
+                    img.style.top = Math.random() * 100 + 'vh';
+                    img.style.left = Math.random() * 100 + 'vw';
+                }
+
+                setInterval(moveFoodIcon, 2000);
+            }
+
+            for (let i = 0; i < 50; i++) { 
+                createFoodIcon();
+            }
+        });
+    </script>
+    <script src="script.js"></script>
     <script src="game.js"></script>
 </body>
 </html>
