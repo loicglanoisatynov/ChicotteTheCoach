@@ -5,7 +5,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const dino = {
-    x: 200,
+    x: canvas.width / 3 - 15,
     y: canvas.height - 70,
     width: 30,
     height: 30,
@@ -26,9 +26,9 @@ const dino = {
 const obstacles = [];
 const bonuses = [];
 let frame = 0;
-let calories = 100;
+let calories = 80;
 let score = 0;
-let gameRunning = false; // Change to false to start with the menu
+let gameRunning = false;
 let tickSinceLastObstacle = 0;
 let nextObstacle = 0;
 let tickSinceLastFood = 0;
@@ -46,6 +46,7 @@ const foodSound = document.getElementById('food-sound');
 const jumpSound = document.getElementById('jump-sound');
 const buffSound = document.getElementById('buff-sound');
 const debuffSound = document.getElementById('debuff-sound');
+const hitSound = document.getElementById('hit-sound');
 const scoreboardContainer = document.getElementById('scoreboard');
 
 const mainMenu = document.getElementById('main-menu');
@@ -154,7 +155,7 @@ document.addEventListener('keyup', function (event) {
 });
 
 function resetGame() {
-    dino.x = 200;
+    dino.x = canvas.width / 3 - 15;
     dino.y = canvas.height - dino.height;
     dino.velocityY = 0;
     dino.jumps = 0;
@@ -167,7 +168,7 @@ function resetGame() {
     gameOverContainer.classList.add('hidden');
     scoreDisplay.textContent = 'Score: 0';
     gameRunning = true;
-    calories = 100;
+    calories = 80;
     score = 0;
     tickSinceLastObstacle = 0;
     nextObstacle = Math.floor(Math.random() * 200 + 20);
@@ -209,6 +210,17 @@ function playSound(sound) {
 function getRandomBonusType() {
     const types = Object.keys(bonusTypes);
     return bonusTypes[types[Math.floor(Math.random() * types.length)]];
+}
+
+function getCookies(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return '';
 }
 
 function update() {
@@ -290,17 +302,19 @@ function update() {
             }
         }
 
-        obstacles.forEach(obstacle => {
+        obstacles.forEach((obstacle, index) => {
             if (dino.x < obstacle.x + obstacle.width &&
                 dino.x + dino.width > obstacle.x &&
                 dino.y < obstacle.y + obstacle.height &&
                 dino.y + dino.height > obstacle.y) {
+                obstacles.splice(index, 1); // Remove the obstacle from the array
+
                 dino.velocityY = -dino.jumpPower / 2;
                 dino.jumps = 2;
                 dino.speedBoost = -3;
                 dino.speedBoostDuration = 20;
-                obstacles.splice(0, 1);
-                return;
+
+                playSound(hitSound);
             }
         });
 
@@ -331,7 +345,9 @@ function update() {
             dino.speed = 5;
         }
         if (calories <= 0 || dino.x < 20) {
+            document.cookie = "points=" + (parseInt(getCookies('points')) + score);
             gameOver();
+            document.getElementById('pointcounter').textContent = "Coins : " + getCookies('points');
             return;
         }
         calorieBar.style.width = calories + '%';
@@ -347,5 +363,6 @@ returnToMenuButton.addEventListener('click', function() {
     gameContainer.classList.add('hidden');
     mainMenu.classList.remove('hidden');
 });
-
+document.cookie = "points=0";
 update();
+
