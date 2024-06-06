@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         img.classList.add('food-icon');
         img.style.top = Math.random() * 100 + 'vh';
         img.style.left = Math.random() * 100 + 'vw';
-        foodIconsContainer.appendChild(img);
+        // foodIconsContainer.appendChild(img);
 
         function moveFoodIcon() {
             img.style.top = Math.random() * 100 + 'vh';
