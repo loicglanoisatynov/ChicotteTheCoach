@@ -7,174 +7,175 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="particles-js"></div>
-<div id="main-menu">
-    <h1>Chicotte The Coach</h1>
-    <input type="text" id="username" placeholder="Entrez votre pseudo">
-    <button id="start-button">Commencer</button>
-    <button id="menu-options-button">Options</button>
-    <button id="menu-credits-button">Crédits</button>
-
-</div>
-<div id="game-container" class="hidden">
-    <canvas id="gameCanvas"></canvas>
-    <div id="calorie-container">
-        <div id="calorie-bar"></div>
+    <div id="particles-js"></div>
+    <div id="main-menu">
+        <h1>Chicotte The Coach</h1>
+        <input type="text" id="username" placeholder="Entrez votre pseudo">
+        <button id="start-button">Commencer</button>
+        <button id="menu-options-button">Options</button>
+        <button id="menu-credits-button">Crédits</button>
     </div>
-    <div id="jump-container">
-        <div id="jump-bar"></div>
-    </div>
-    <div id="options">
-        <button id="options-button">Options</button>
-    </div>
-    <div id="score">Score: 0</div>
-    <div id="game-over-container" class="hidden">
-        <h1>Game Over</h1>
-        <p id="final-score">Score: 0</p>
-        <div id="scoreboard">
-            <img src="/image/Menu/DancingManScoreBoard.gif" alt="Votre GIF" id="scoreboard-gif">
-            <h2>Tableau des Scores</h2>
-            <ul>
-                <li>Player 1: 100</li>
-                <li>Player 2: 80</li>
-                <li>Player 3: 60</li>
-            </ul>
+    <div id="game-container" class="hidden">
+        <canvas id="gameCanvas"></canvas>
+        <div id="calorie-container">
+            <div id="calorie-bar"></div>
         </div>
-        <button id="restart-button">Recommencer</button>
-        <button id="return-to-menu-button">Retour au menu</button>
+        <div id="jump-container">
+            <div id="jump-bar"></div>
+        </div>
+        <div id="options">
+            <button id="options-button">Options</button>
+        </div>
+        <div id="score">Score: 0</div>
+        <div id="game-over-container" class="hidden">
+            <h1>Game Over</h1>
+            <p id="final-score">Score: 0</p>
+            <div id="scoreboard">
+                <img src="/image/Menu/DancingManScoreBoard.gif" alt="Votre GIF" id="scoreboard-gif">
+                <h2>Tableau des Scores</h2>
+                <ul>
+                    <li>Player 1: 100</li>
+                    <li>Player 2: 80</li>
+                    <li>Player 3: 60</li>
+                </ul>
+            </div>
+            <button id="restart-button">Recommencer</button>
+            <button id="return-to-menu-button">Retour au menu</button>
+        </div>
     </div>
-</div>
-<div id="input-container" class="hidden">
-    <h2 class="options">Changer les touches</h2>
-    <div class="option-row">
-        <p>Touche pour sauter</p>
-        <input class="options" id="jump-key">
+    <div id="input-container" class="hidden">
+        <h2 class="options">Changer les touches</h2>
+        <div class="option-row">
+            <p>Touche pour sauter</p>
+            <input class="options" id="jump-key">
+        </div>
+        <div class="option-row">
+            <p>Touche pour charger</p>
+            <input class="options" id="charge-key">
+        </div>
+        <button id="updateKB">Sauvegarder</button>
+        <button id="return-button">Retour</button>
     </div>
-    <div class="option-row">
-        <p>Touche pour charger</p>
-        <input class="options" id="charge-key">
+    <div id="credits-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Crédits</h2>
+            <p>Créé par Hamed, Loic, Brandon, Tibor et Yassine</p>
+            <button id="close-credits-button">Fermer</button>
+        </div>
     </div>
-    <button id="updateKB">Sauvegarder</button>
-    <button id="return-button">Retour</button>
-</div>
-<div id="credits-modal" class="modal"> 
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Crédits</h2>
-        <p>Créé par Hamed, Loic, Brandon, Tibor et Yassine</p>
-        <button id="close-credits-button">Fermer</button>
-    </div>
-</div>
-<img src="/image/Menu/Micheal.gif" id="bottom-left-gif" alt="Animated GIF">
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script>
-    particlesJS('particles-js', {
-        "particles": {
-            "number": {
-                "value": 80,
-                "density": {
-                    "enable": true,
-                    "value_area": 800
-                }
-            },
-            "color": {
-                "value": "#ffffff"
-            },
-            "shape": {
-                "type": "circle",
-                "stroke": {
-                    "width": 0,
-                    "color": "#000000"
-                },
-                "polygon": {
-                    "nb_sides": 5
-                }
-            },
-            "opacity": {
-                "value": 0.5,
-                "random": false,
-                "anim": {
-                    "enable": false,
-                    "speed": 1,
-                    "opacity_min": 0.1,
-                    "sync": false
-                }
-            },
-            "size": {
-                "value": 3,
-                "random": true,
-                "anim": {
-                    "enable": false,
-                    "speed": 40,
-                    "size_min": 0.1,
-                    "sync": false
-                }
-            },
-            "line_linked": {
-                "enable": true,
-                "distance": 150,
-                "color": "#ffffff",
-                "opacity": 0.4,
-                "width": 1
-            },
-            "move": {
-                "enable": true,
-                "speed": 6,
-                "direction": "none",
-                "random": false,
-                "straight": false,
-                "out_mode": "out",
-                "bounce": false,
-                "attract": {
-                    "enable": false,
-                    "rotateX": 600,
-                    "rotateY": 1200
-                }
-            }
-        },
-        "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-                "onhover": {
-                    "enable": true,
-                    "mode": "repulse"
-                },
-                "onclick": {
-                    "enable": true,
-                    "mode": "push"
-                },
-                "resize": true
-            },
-            "modes": {
-                "grab": {
-                    "distance": 400,
-                    "line_linked": {
-                        "opacity": 1
+    <audio id="jump-sound" src="/sounds/Character/jumping.wav" preload="auto"></audio>
+    <audio id="food-sound" src="/sounds/Items/Food.wav" preload="auto"></audio>
+    <img src="/image/Menu/Micheal.gif" id="bottom-left-gif" alt="Animated GIF">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
                     }
                 },
-                "bubble": {
-                    "distance": 400,
-                    "size": 40,
-                    "duration": 2,
-                    "opacity": 8,
-                    "speed": 3
+                "color": {
+                    "value": "#ffffff"
                 },
-                "repulse": {
-                    "distance": 200,
-                    "duration": 0.4
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
                 },
-                "push": {
-                    "particles_nb": 4
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
                 },
-                "remove": {
-                    "particles_nb": 2
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
                 }
-            }
-        },
-        "retina_detect": true
-    });
-</script>
-<script src="script.js"></script>
-<script src="game.js"></script>
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+    <script src="script.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
