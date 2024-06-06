@@ -8,12 +8,14 @@
 </head>
 <body>
     <div id="particles-js"></div>
+    <div id="food-icons-container"></div> <!-- Conteneur pour les icônes de nourriture -->
     <div id="main-menu">
         <h1>Chicotte The Coach</h1>
         <input type="text" id="username" placeholder="Entrez votre pseudo">
         <button id="start-button">Commencer</button>
         <button id="menu-options-button">Options</button>
         <button id="menu-credits-button">Crédits</button>
+        <button id="menu-shop-button">Shop</button> <!-- Nouveau bouton ajouté ici -->
     </div>
     <div id="game-container" class="hidden">
         <canvas id="gameCanvas"></canvas>
@@ -175,6 +177,32 @@
                 }
             },
             "retina_detect": true
+        });
+
+       
+        document.addEventListener('DOMContentLoaded', function () {
+            const foodIconsContainer = document.getElementById('food-icons-container');
+            const foodImages = ['image/Menu/apple.png', 'image/Menu/boiledegg.png', 'image/Menu/lettuce.png', 'image/Menu/salad.png', 'image/Menu/banana.png', 'image/Menu/watermelon.png']; 
+
+            function createFoodIcon() {
+                const img = document.createElement('img');
+                img.src = foodImages[Math.floor(Math.random() * foodImages.length)];
+                img.classList.add('food-icon');
+                img.style.top = Math.random() * 100 + 'vh';
+                img.style.left = Math.random() * 100 + 'vw';
+                foodIconsContainer.appendChild(img);
+
+                function moveFoodIcon() {
+                    img.style.top = Math.random() * 100 + 'vh';
+                    img.style.left = Math.random() * 100 + 'vw';
+                }
+
+                setInterval(moveFoodIcon, 2000);
+            }
+
+            for (let i = 0; i < 50; i++) { 
+                createFoodIcon();
+            }
         });
     </script>
     <script src="script.js"></script>

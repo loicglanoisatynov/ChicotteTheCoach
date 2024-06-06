@@ -19,6 +19,21 @@ body {
     100% { background-position: 0% 50%; }
 }
 
+#food-icons-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.food-icon {
+    position: absolute;
+    width: 50px; /* Taille des icônes de nourriture */
+    height: 50px;
+    transition: top 2s, left 2s; /* Transition douce pour les mouvements */
+}
+
 #main-menu {
     position: absolute;
     top: 50%;
