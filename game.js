@@ -17,6 +17,7 @@ let nextFood = 0;
 let gameSpeed = 3;
 let skin = 0;
 let totalSkins = 3;
+let speedCap = new Map();
 
 const dino = {
     x: canvas.width / 3 - 15,
@@ -46,6 +47,7 @@ const finalScore = document.getElementById('final-score');
 const scoreboardContainer = document.getElementById('scoreboard');
 const usernameInput = document.getElementById('username');
 const dinoDiv = document.getElementById('dino');
+const dinoSkin = document.getElementById('dinoSkin');
 
 const gameOverContainer = document.getElementById('game-over-container');
 const gameContainer = document.getElementById('game-container');
@@ -164,7 +166,7 @@ document.addEventListener('keydown', function (event) {
 
 document.addEventListener('keyup', function (event) {
     if (event.key === chargeKeyBind) {
-        if (dino.isChargingJump) {
+        if (dino.isChargingJump && dino.jumps < dino.maxJumps) {
             dino.velocityY = -dino.chargeJumpPower * (dino.jumpCharge / dino.maxJumpCharge);
             dino.jumps++;
             dino.isChargingJump = false;
@@ -175,6 +177,7 @@ document.addEventListener('keyup', function (event) {
 });
 
 function resetGame() {
+    gameSpeed = 3;
     dino.x = canvas.width / 3 - 15;
     dino.y = canvas.height - dino.height;
     dino.velocityY = 0;
@@ -194,29 +197,47 @@ function resetGame() {
     nextObstacle = Math.floor(Math.random() * 200 + 20);
     tickSinceLastFood = 0;
     nextFood = Math.floor(Math.random() * 250 + 50);
+    dinoSkin.style.rotate=0+'deg';
     update();
 }
 
 function gameOver() {
     const username = usernameInput.value || 'Anonyme';
+    
     updateScoreboard(username, score);
     finalScore.textContent = 'Score: ' + score;
     gameOverContainer.classList.remove('hidden');
+    dinoSkin.style.rotate = -90 + 'deg';
+    
+    dinoSkin.style.animationPlayState = 'paused';
     gameRunning = false;
+}
+
+function buySkin(skin) {
+    if (parseInt(getCookies('points')) >= 20) {
+        document.cookie = "points=" + (parseInt(getCookies('points')) - 20);
+        document.getElementById('pointcounter').textContent = "Coins : " + getCookies('points');
+        changeSkin(skin);
+        document.getElementById('select'+String(skin)).removeEventListener('click', buySkin.bind(null, skin));
+        document.getElementById('select'+String(skin)).addEventListener('click', changeSkin.bind(null, skin));
+    }
 }
 
 function changeSkin(skin) {
     dino.skin = 'runners/runner'+String(skin)+'.gif';
-    document.getElementById('select'+String(skin)).textContent = 'Selected';
-    document.getElementById('select'+String(skin)).disabled = true;
     document.getElementById('select'+String(dino.skinNb)).textContent = 'Select';
     document.getElementById('select'+String(dino.skinNb)).disabled = false;
+    document.getElementById('select'+String(skin)).textContent = 'Selected';
+    document.getElementById('select'+String(skin)).disabled = true;
+    console.log('select'+String(skin));
+    
     dino.skinNb = skin;
-    document.getElementById('dinoSkin').src = dino.skin;
+   dinoSkin.src = dino.skin;
 }
 
 function createShopItems() {
-    var shop = document.getElementById('shop-items');
+    let shop = document.getElementById('shop-items');
+    let price = 0;
 
     for (var i = 0; i < totalSkins; i++) {
         var div = document.createElement('div');
@@ -235,14 +256,16 @@ function createShopItems() {
         var button = document.createElement('button');
         button.id = 'select' + (i + 1);
         button.className = 'select-button';
-        button.textContent = 'Select ' + (i + 1);
-        button.addEventListener('click', changeSkin.bind(null, i + 1));
+        button.textContent = 'Buy ' + 20;
+        button.addEventListener('click', buySkin.bind(null, i + 1));
         div.appendChild(button);
 
         shop.appendChild(div);
     }
     document.getElementById('select1').textContent = 'Selected';
     document.getElementById('select1').disabled = true;
+    document.getElementById('select1').removeEventListener('click', buySkin.bind(null, 1));
+    document.getElementById('select1').addEventListener('click', changeSkin.bind(null, 1));
 }
 
 function updateScoreboard(username, score) {
@@ -418,7 +441,8 @@ function update() {
         obstacles.forEach((obstacle, index) => {
             if (dino.x + dino.width - 30 > obstacle.x &&
                 dino.y + dino.height > obstacle.y &&
-                dino.x < obstacle.x + obstacle.width) {
+                dino.x < obstacle.x + obstacle.width &&
+                dino.y < obstacle.y + obstacle.height) {
                 obstacles.splice(index, 1); // Remove the obstacle from the array
 
                 dino.velocityY = -dino.jumpPower / 2;
@@ -450,6 +474,11 @@ function update() {
             }
         });
 
+        if (score % 10 === 0 && score > 0 && !speedCap.has(score) && gameSpeed < 6) {
+            gameSpeed += 0.1;
+            speedCap.set(score, true);
+        }
+
         calories -= 0.04;
         if (calories > 80) {
             calorieBar.style.backgroundColor = 'red';
@@ -461,7 +490,7 @@ function update() {
             calorieBar.style.backgroundColor = 'yellow';
             dino.speed = gameSpeed;
         }
-        if (calories <= 0 || dino.x < 20) {
+        if (calories <= 0 || dino.x < 100) {
             document.cookie = "points=" + (parseInt(getCookies('points')) + score);
             gameOver();
             document.getElementById('pointcounter').textContent = "Coins : " + getCookies('points');
