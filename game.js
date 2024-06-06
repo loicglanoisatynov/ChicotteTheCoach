@@ -81,9 +81,9 @@ const bonusTypes = {
 };
 
 const bonusData = {
-    BOOST: {calories: 0, speedBoost: 2, duration: 100, color: 'blue', sound: buffSound},
-    FAT: {calories: 40, speedBoost: -1, duration: 50, color: 'brown', sound: debuffSound},
-    FIT: {calories: 20, speedBoost: 1, duration: 50, color: 'green', sound: buffSound}
+    BOOST: { calories: 0, speedBoost: 2, duration: 100, color: 'blue', sound: buffSound },
+    FAT: { calories: 40, speedBoost: -1, duration: 50, color: 'brown', sound: debuffSound },
+    FIT: { calories: 20, speedBoost: 1, duration: 50, color: 'green', sound: buffSound }
 };
 
 const bonusItems = {
@@ -92,7 +92,8 @@ const bonusItems = {
     FIT: ['Pomme', 'Banane', 'Tomate', 'Oeufs', 'Salade']
 };
 
-
+var jumpKeyBind = ' ';
+var chargeKeyBind = 'Shift';
 
 document.getElementById('updateKB').addEventListener('click', function (e) {
     e.preventDefault();
@@ -125,13 +126,13 @@ optionsButton.addEventListener('click', function (e) {
     gameRunning = !gameRunning;
 });
 
-menuOptionsButton.addEventListener('click', function (e) {
+menuOptionsButton.addEventListener('click', function(e) {
     e.preventDefault();
     mainMenu.classList.add('hidden');
     inputContainer.classList.remove('hidden');
 });
 
-startButton.addEventListener('click', function (e) {
+startButton.addEventListener('click', function(e) {
     e.preventDefault();
     mainMenu.classList.add('hidden');
     gameContainer.classList.remove('hidden');
@@ -270,7 +271,7 @@ function createShopItems() {
 
 function updateScoreboard(username, score) {
     let scoreboard = JSON.parse(localStorage.getItem('scoreboard')) || [];
-    scoreboard.push({username, score});
+    scoreboard.push({ username, score });
     scoreboard.sort((a, b) => b.score - a.score);
     if (scoreboard.length > 10) {
         scoreboard.pop();
@@ -294,7 +295,6 @@ function getRandomBonusType() {
     const types = Object.keys(bonusTypes);
     return bonusTypes[types[Math.floor(Math.random() * types.length)]];
 }
-
 function getCookies(name) {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -306,58 +306,13 @@ function getCookies(name) {
     return '';
 }
 
-const backgroundImage = new Image();
-backgroundImage.src = 'image/city_background.png';
-
-const cloudImages = [
-    { image: new Image(), x: canvas.width, y: 50, speed: 2 },
-    { image: new Image(), x: canvas.width * 1.5, y: 150, speed: 1.5 },
-];
-
-cloudImages[0].image.src = 'image/cloud1.png';
-cloudImages[1].image.src = 'image/cloud2.png';
-
-const groundImage = new Image();
-groundImage.src = 'image/ground.png';
-
-let bgX = 0;
-let groundX = 0;
-
-function updateBackground() {
-    bgX -= gameSpeed;
-    if (bgX <= -canvas.width) {
-        bgX = 0;
-    }
-    ctx.drawImage(backgroundImage, bgX, 0, canvas.width, canvas.height);
-    ctx.drawImage(backgroundImage, bgX + canvas.width, 0, canvas.width, canvas.height);
-}
-
-function updateClouds() {
-    cloudImages.forEach(cloud => {
-        cloud.x -= cloud.speed;
-        if (cloud.x <= -cloud.image.width) {
-            cloud.x = canvas.width;
-        }
-        ctx.drawImage(cloud.image, cloud.x, cloud.y);
-    });
-}
-
-function updateGround() {
-    groundX -= gameSpeed;
-    if (groundX <= -canvas.width) {
-        groundX = 0;
-    }
-    ctx.drawImage(groundImage, groundX, canvas.height - groundImage.height, canvas.width, groundImage.height);
-    ctx.drawImage(groundImage, groundX + canvas.width, canvas.height - groundImage.height, canvas.width, groundImage.height);
-}
-
 function update() {
     if (gameRunning) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Mettez à jour l'arrière-plan et les nuages
         updateBackground();
         updateClouds();
-        updateGround();
 
         dino.y += dino.velocityY;
         if (dino.y < canvas.height - dino.height) {
@@ -372,8 +327,8 @@ function update() {
         ctx.color = 'black';
         // ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-        dinoDiv.style.left = (dino.x - 50)+ 'px';
-        dinoDiv.style.top = (dino.y-35)+ 'px';
+        dinoDiv.style.left = (dino.x - 50) + 'px';
+        dinoDiv.style.top = (dino.y - 35) + 'px';
 
         if (dino.isChargingJump) {
             dino.jumpCharge += 2;
@@ -388,8 +343,9 @@ function update() {
             const obstacleHeight = Math.random() * 50 + 20;
             const obstacleX = canvas.width;
             const obstacleY = canvas.height - obstacleHeight;
+            const obstacleImage = obstacleImageObjects[Math.floor(Math.random() * obstacleImageObjects.length)];
 
-            obstacles.push({x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight});
+            obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight, image: obstacleImage });
             tickSinceLastObstacle = 0;
             nextObstacle = Math.floor(Math.random() * 200 + 20);
         }
@@ -416,7 +372,7 @@ function update() {
                 score++;
                 scoreDisplay.textContent = 'Score: ' + score;
             } else {
-                ctx.fillRect(obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
+                ctx.drawImage(obstacles[i].image, obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
             }
         }
 
