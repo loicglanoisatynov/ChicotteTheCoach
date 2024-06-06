@@ -9,9 +9,11 @@
 <body>
 <div id="main-menu">
     <h1>Chicotte The Coach</h1>
+    <h2 id="pointcounter">Coins : 0</h2>
     <input type="text" id="username" placeholder="Entrez votre pseudo">
     <button id="start-button">Commencer</button>
     <button id="menu-options-button">Options</button>
+    <button id="shop-button">Shop</button>
 </div>
 <div id="game-container" class="hidden">
     <canvas id="gameCanvas"></canvas>
@@ -25,18 +27,22 @@
         <button id="options-button">Options</button>
     </div>
     <div id="score">Score: 0</div>
+    <div id="dino">
+        <img id="dinoSkin" src="runners/runner1.gif" alt="dino">
+    </div>
     <div id="game-over-container" class="hidden">
         <h1>Game Over</h1>
         <p id="final-score">Score: 0</p>
         <div id="scoreboard"></div>
         <button id="restart-button">Recommencer</button>
-        <button id="return-to-menu-button">Retour au menu</button>
+        <button onclick="returnMain()">Retour au menu</button>
     </div>
 </div>
 <audio id="jump-sound" src="/sounds/character/jumping.wav" preload="auto"></audio>
 <audio id="food-sound" src="/sounds/Items/Food.wav" preload="auto"></audio>
 <audio id="buff-sound" src="/sounds/Items/Bonus.wav" preload="auto"></audio>
 <audio id="debuff-sound" src="/sounds/Items/debuffs.wav" preload="auto"></audio>
+<audio id="hit-sound" src="/sounds/character/hit.mp3" preload="auto"></audio>
 
 <div id="input-container" class="hidden">
     <h2 class="options">Change keys</h2>
@@ -49,9 +55,16 @@
         <input class="options" id="charge-key">
     </div>
     <button id="updateKB">Save changes</button>
-    <button id="return-button">Return</button>
+    <button onclick="returnMain()">Return</button>
 </div>
-<script src="game.js"></script>
+<div id="shop-container" class="hidden">
+    <h2>Shop</h2>
+    <div id="shop-items">
+    </div>
+    <button onclick="returnMain()">Retour au menu</button>
+</div>
 
+<script src="game.js"></script>
+<script src="background.js"></script> <!-- Ajoutez cette ligne -->
 </body>
 </html>

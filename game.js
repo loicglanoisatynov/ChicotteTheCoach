@@ -90,7 +90,38 @@ const bonusItems = {
     FIT: ['Pomme', 'Banane', 'Tomate', 'Oeufs', 'Salade']
 };
 
+// Background related variables and functions
+const backgroundGif = new Image();
+backgroundGif.src = 'image/A3R.gif';
 
+const cloudImages = [
+    { image: new Image(), x: canvas.width, y: 30, speed: 2 },
+    { image: new Image(), x: canvas.width * 1.5, y: 80, speed: 1.5 },
+];
+
+cloudImages[0].image.src = 'image/img.png';
+cloudImages[1].image.src = 'image/img.png';
+
+let bgX = 0;
+
+function updateBackground() {
+    bgX -= gameSpeed;
+    if (bgX <= -canvas.width) {
+        bgX = 0;
+    }
+    ctx.drawImage(backgroundGif, bgX, 0, canvas.width, canvas.height);
+    ctx.drawImage(backgroundGif, bgX + canvas.width, 0, canvas.width, canvas.height);
+}
+
+function updateClouds() {
+    cloudImages.forEach(cloud => {
+        cloud.x -= cloud.speed;
+        if (cloud.x <= -cloud.image.width) {
+            cloud.x = canvas.width;
+        }
+        ctx.drawImage(cloud.image, cloud.x, cloud.y, cloud.image.width * 0.5, cloud.image.height * 0.5);
+    });
+}
 
 document.getElementById('updateKB').addEventListener('click', function (e) {
     e.preventDefault();
@@ -284,6 +315,10 @@ function getCookies(name) {
 function update() {
     if (gameRunning) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Mettez à jour l'arrière-plan et les nuages
+        updateBackground();
+        updateClouds();
 
         dino.y += dino.velocityY;
         if (dino.y < canvas.height - dino.height) {
