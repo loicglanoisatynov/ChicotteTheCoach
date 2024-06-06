@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var closeRules = document.getElementById("close-rules");
     var closeRulesButton = document.getElementById("close-rules-button");
 
+    var gif = document.getElementById("bottom-left-gif");
+    var menuSound = document.getElementById("menu-sound");
+
     if (creditsButton) {
         creditsButton.onclick = function() {
             creditsModal.style.display = "block";
@@ -51,6 +54,13 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (event.target == rulesModal) {
             rulesModal.style.display = "none";
         }
+    }
+
+    if (gif && menuSound) {
+        gif.addEventListener("click", function() {
+            console.log("GIF clicked");
+            menuSound.play();
+        });
     }
 });
 
