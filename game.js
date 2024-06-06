@@ -259,8 +259,8 @@ function gameOver() {
 }
 
 function buySkin(skin) {
-    if (parseInt(getCookies('points')) >= 20) {
-        document.cookie = "points=" + (parseInt(getCookies('points')) - 20);
+    if (parseInt(getCookies('points')) >= 100) {
+        document.cookie = "points=" + (parseInt(getCookies('points')) - 100);
         document.getElementById('pointcounter').textContent = "Coins : " + getCookies('points');
         changeSkin(skin);
         document.getElementById('select'+String(skin)).removeEventListener('click', buySkin.bind(null, skin));
@@ -301,7 +301,7 @@ function createShopItems() {
         var button = document.createElement('button');
         button.id = 'select' + (i + 1);
         button.className = 'select-button';
-        button.textContent = 'Buy ' + 20;
+        button.textContent = 'Buy ' + 100;
         button.addEventListener('click', buySkin.bind(null, i + 1));
         div.appendChild(button);
 
