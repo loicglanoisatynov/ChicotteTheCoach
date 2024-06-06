@@ -333,3 +333,14 @@ body {
 #close-credits-button:active {
     transform: scale(0.95);
 }
+
+.modal-content.fade-in {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.modal-content.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
