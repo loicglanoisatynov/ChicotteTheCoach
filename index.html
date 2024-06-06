@@ -8,14 +8,15 @@
 </head>
 <body>
     <div id="particles-js"></div>
-    <div id="food-icons-container"></div> <!-- Conteneur pour les icônes de nourriture -->
+    <div id="food-icons-container"></div> 
     <div id="main-menu">
         <h1>Chicotte The Coach</h1>
         <input type="text" id="username" placeholder="Entrez votre pseudo">
         <button id="start-button">Commencer</button>
         <button id="menu-options-button">Options</button>
         <button id="menu-credits-button">Crédits</button>
-        <button id="menu-shop-button">Shop</button> <!-- Nouveau bouton ajouté ici -->
+        <button id="menu-shop-button">Shop</button>
+        <button id="menu-rules-button">Règles</button> <!-- Nouveau bouton -->
     </div>
     <div id="game-container" class="hidden">
         <canvas id="gameCanvas"></canvas>
@@ -60,10 +61,21 @@
     </div>
     <div id="credits-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" id="close-credits">&times;</span>
             <h2>Crédits</h2>
             <p>Créé par Hamed, Loic, Brandon, Tibor et Yassine</p>
             <button id="close-credits-button">Fermer</button>
+        </div>
+    </div>
+    <div id="rules-modal" class="modal"> <!-- Nouvelle section -->
+        <div class="modal-content">
+            <span class="close" id="close-rules">&times;</span>
+            <h2>🍏 Règle du jeu 🍕</h2>
+            <p>Vous devez ne pas laisser votre barre de calorie descendre à 0 grâce aux différents éléments et éviter de vous faire attraper par le coach!</p>
+            <h2>🍏 Commandes 🍕</h2>
+            <p>Espace : saut ou double saut</p>
+            <p>Shift : saut chargé</p>
+            <button id="close-rules-button">Fermer</button>
         </div>
     </div>
     <audio id="jump-sound" src="/sounds/character/jumping.wav" preload="auto"></audio>
@@ -179,7 +191,6 @@
             "retina_detect": true
         });
 
-       
         document.addEventListener('DOMContentLoaded', function () {
             const foodIconsContainer = document.getElementById('food-icons-container');
             const foodImages = ['image/Menu/apple.png', 'image/Menu/boiledegg.png', 'image/Menu/lettuce.png', 'image/Menu/salad.png', 'image/Menu/banana.png', 'image/Menu/watermelon.png']; 
@@ -200,7 +211,7 @@
                 setInterval(moveFoodIcon, 2000);
             }
 
-            for (let i = 0; i < 50; i++) { 
+            for (let i = 0; i < 50; i++) {
                 createFoodIcon();
             }
         });
