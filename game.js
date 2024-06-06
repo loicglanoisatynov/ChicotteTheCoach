@@ -78,6 +78,7 @@ const bonusItems = {
 var jumpKeyBind = ' ';
 var chargeKeyBind = 'Shift';
 
+
 document.getElementById('updateKB').addEventListener('click', function (e) {
     e.preventDefault();
     if (document.getElementById('jump-key').value != '') {
@@ -255,6 +256,7 @@ function updateGround() {
     ctx.drawImage(groundImage, groundX, canvas.height - groundImage.height, canvas.width, groundImage.height);
     ctx.drawImage(groundImage, groundX + canvas.width, canvas.height - groundImage.height, canvas.width, groundImage.height);
 }
+
 
 function update() {
     if (gameRunning) {
