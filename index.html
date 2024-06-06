@@ -28,7 +28,14 @@
     <div id="game-over-container" class="hidden">
         <h1>Game Over</h1>
         <p id="final-score">Score: 0</p>
-        <div id="scoreboard"></div>
+        <div id="scoreboard">
+            <h2>Tableau des Scores</h2>
+            <ul>
+                <li>Player 1: 100</li>
+                <li>Player 2: 80</li>
+                <li>Player 3: 60</li>
+            </ul>
+        </div>
         <button id="restart-button">Recommencer</button>
         <button id="return-to-menu-button">Retour au menu</button>
     </div>
@@ -39,17 +46,17 @@
 <audio id="debuff-sound" src="/sounds/Items/debuffs.wav" preload="auto"></audio>
 
 <div id="input-container" class="hidden">
-    <h2 class="options">Change keys</h2>
+    <h2 class="options">Changer les touches</h2>
     <div class="option-row">
-        <p>Jump key</p>
+        <p>Touche pour sauter</p>
         <input class="options" id="jump-key">
     </div>
     <div class="option-row">
-        <p>Charge key</p>
+        <p>Touche pour charger</p>
         <input class="options" id="charge-key">
     </div>
-    <button id="updateKB">Save changes</button>
-    <button id="return-button">Return</button>
+    <button id="updateKB">Sauvegarder</button>
+    <button id="return-button">Retour</button>
 </div>
 <script src="game.js"></script>
 
