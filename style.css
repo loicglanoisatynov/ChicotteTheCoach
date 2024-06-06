@@ -29,9 +29,9 @@ body {
 
 .food-icon {
     position: absolute;
-    width: 50px; /* Taille des icônes de nourriture */
+    width: 50px; 
     height: 50px;
-    transition: top 2s, left 2s; /* Transition douce pour les mouvements */
+    transition: top 2s, left 2s; 
 }
 
 #main-menu {
@@ -131,13 +131,20 @@ body {
     font-size: 24px;
     font-weight: bold;
 }
-
+#final-score{
+    font-size: 24px;
+    color: #ff7e5f;
+    text-shadow: 2px 2px 4px #000;
+}
 #game-over-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    font-size: 24px;
+    color: #ff7e5f;
+    text-shadow: 2px 2px 4px #000;
     animation: fadeIn 2s ease-out;
 }
 
@@ -236,7 +243,7 @@ body {
 #scoreboard li {
     margin: 5px 0;
     padding: 5px 10px;
-    background: rgba(14, 74, 119, 0.4);
+    background: rgb(86, 139, 219);
     border-radius: 10px;
     font-size: 18px;
     color: #000000;
@@ -244,7 +251,7 @@ body {
 }
 
 #scoreboard li:hover {
-    background: rgba(0, 145, 255, 0.4);
+    background: rgb(255, 255, 255);
 }
 
 #gif {
