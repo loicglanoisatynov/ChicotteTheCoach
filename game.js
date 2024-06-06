@@ -212,14 +212,14 @@ function getRandomBonusType() {
 }
 
 const backgroundImage = new Image();
-backgroundImage.src = 'image/city_background.png';
+backgroundImage.src = 'image/A3R.gif';
 
 const cloudImages = [
     { image: new Image(), x: canvas.width, y: 50, speed: 2 },
     { image: new Image(), x: canvas.width * 1.5, y: 150, speed: 1.5 },
 ];
 
-cloudImages[0].image.src = 'image/cloud1.png';
+cloudImages[0].image.src = 'image/2vDc.gif';
 cloudImages[1].image.src = 'image/cloud2.png';
 
 const groundImage = new Image();
@@ -364,7 +364,7 @@ function update() {
                 calories = Math.min(100, calories + effect.calories);
                 dino.speedBoost = effect.speedBoost;
                 dino.speedBoostDuration = effect.duration;
-                playSound(effect.sound);  // Play appropriate sound
+                playSound(effect.sound);
             }
         });
 
