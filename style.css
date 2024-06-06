@@ -130,7 +130,11 @@ body {
     background-color: #f4f4f4;
 }
 
-
+#dinoDiv{
+    width: 50px;
+    height: 50px;
+    background-color: yellow;
+}
 
 #input-container {
     position: absolute;
@@ -181,4 +185,47 @@ body {
     width: 80%;
     max-width: 300px;
     text-align: center;
+}
+
+.shop-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #000;
+}
+
+.shop-item img {
+    width: 50px;
+    height: 50px;
+}
+
+.shop-item button {
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+.shop-item button:disabled {
+    background-color: #ccc;
+}
+
+.shop-item button:hover {
+    background-color: #ddd;
+}
+
+.shop-item button:active {
+    background-color: #bbb;
+}
+
+.shop-item button:disabled {
+    cursor: not-allowed;
+}
+
+#dino img {
+    width: 64px;
+    height: 64px;
+}
+
+.hit{
+    filter: grayscale(100%) brightness(60%) sepia(100%) hue-rotate(-50deg) saturate(6000%) contrast(0.8);
 }
