@@ -1,9 +1,16 @@
 body {
     margin: 0;
     overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(120deg, #f6d365 0%, #0011ff 100%);
     animation: backgroundAnimation 15s ease infinite;
-    font-family: 'Arial', sans-serif;
+    z-index: -1;
 }
 
 @keyframes backgroundAnimation {
@@ -217,4 +224,28 @@ body {
 
 #scoreboard li:hover {
     background: rgba(0, 145, 255, 0.4);
+}
+
+#gif {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: 100px;
+    height: auto;
+    z-index: 9999; 
+}
+
+#scoreboard {
+    margin-top: 20px;
+    text-align: left;
+    animation: fadeIn 2s ease-out;
+    position: relative; 
+}
+
+#scoreboard-gif {
+    position: absolute; 
+    top: -50px; 
+    left: 0;
+    width: 50px; 
+    height: auto; 
 }
