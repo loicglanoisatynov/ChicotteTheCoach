@@ -20,9 +20,7 @@ const dino = {
     chargeJumpPower: 30,
     speed: 4,
     speedBoost: 0,
-    speedBoostDuration: 0,
-    isHit: false,
-    retreatSpeed: 2
+    speedBoostDuration: 0
 };
 
 const obstacles = [];
@@ -30,7 +28,7 @@ const bonuses = [];
 let frame = 0;
 let calories = 100;
 let score = 0;
-let gameRunning = false;
+let gameRunning = false; // Change to false to start with the menu
 let tickSinceLastObstacle = 0;
 let nextObstacle = 0;
 let tickSinceLastFood = 0;
@@ -49,6 +47,7 @@ const jumpSound = document.getElementById('jump-sound');
 const buffSound = document.getElementById('buff-sound');
 const debuffSound = document.getElementById('debuff-sound');
 const scoreboardContainer = document.getElementById('scoreboard');
+
 const mainMenu = document.getElementById('main-menu');
 const gameContainer = document.getElementById('game-container');
 const startButton = document.getElementById('start-button');
@@ -163,7 +162,6 @@ function resetGame() {
     dino.speed = 5;
     dino.speedBoost = 0;
     dino.speedBoostDuration = 0;
-    dino.isHit = false;
     obstacles.length = 0;
     bonuses.length = 0;
     gameOverContainer.classList.add('hidden');
@@ -268,27 +266,14 @@ function update() {
 
         dino.y += dino.velocityY;
         if (dino.y < canvas.height - dino.height) {
-            if (!dino.isHit) {
-                dino.x += dino.speedBoost;
-                dino.velocityY += dino.gravity;
-            }
+            dino.x += dino.speedBoost;
+            dino.velocityY += dino.gravity;
         } else {
             dino.y = canvas.height - dino.height;
             dino.velocityY = 0;
             dino.jumps = 0;
-            if (!dino.isHit) {
-                dino.x += (dino.speed + dino.speedBoost) - gameSpeed;
-            }
+            dino.x += (dino.speed + dino.speedBoost) - gameSpeed;
         }
-
-        if (dino.isHit) {
-            dino.x -= dino.retreatSpeed;
-            if (dino.x <= 0) {
-                gameOver();
-                return;
-            }
-        }
-
         ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
         if (dino.isChargingJump) {
@@ -359,7 +344,12 @@ function update() {
                 dino.x + dino.width > obstacle.x &&
                 dino.y < obstacle.y + obstacle.height &&
                 dino.y + dino.height > obstacle.y) {
-                dino.isHit = true;
+                dino.velocityY = -dino.jumpPower / 2;
+                dino.jumps = 2;
+                dino.speedBoost = -3;
+                dino.speedBoostDuration = 20;
+                obstacles.splice(0, 1);
+                return;
             }
         });
 
@@ -374,7 +364,7 @@ function update() {
                 calories = Math.min(100, calories + effect.calories);
                 dino.speedBoost = effect.speedBoost;
                 dino.speedBoostDuration = effect.duration;
-                playSound(effect.sound);
+                playSound(effect.sound);  // Play appropriate sound
             }
         });
 
