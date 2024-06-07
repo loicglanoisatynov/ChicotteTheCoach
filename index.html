@@ -46,7 +46,7 @@
                 </ul>
             </div>
             <button id="restart-button">Recommencer</button>
-            <button id="close-credits-button"onclick="returnMain()">Retour au menu</button>
+            <button id="close-credits-button" onclick="returnMain()">Retour au menu</button>
         </div>
     </div>
     <div id="input-container" class="hidden">
@@ -92,7 +92,7 @@
     <audio id="buff-sound" src="/sounds/Items/Bonus.wav" preload="auto"></audio>
     <audio id="debuff-sound" src="/sounds/Items/debuffs.wav" preload="auto"></audio>
     <audio id="hit-sound" src="/sounds/character/hit.mp3" preload="auto"></audio>
-    <!-- <audio id="menu-sound" src="/path/to/your/soundfile.mp3" preload="auto"></audio> -->
+    <audio id="bg-music" src="/sounds/theme/SUBWAY SURFERS (Main Theme).mp3" preload="auto" loop></audio>
     <img src="/image/Menu/Micheal.gif" id="bottom-left-gif" alt="Animated GIF">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
@@ -212,7 +212,6 @@
                 img.classList.add('food-icon');
                 img.style.top = Math.random() * 100 + 'vh';
                 img.style.left = Math.random() * 100 + 'vw';
-                // foodIconsContainer.appendChild(img);
 
                 function moveFoodIcon() {
                     img.style.top = Math.random() * 100 + 'vh';
@@ -293,7 +292,6 @@
             }
         });
 
-        // Exemple d'utilisation de cloneNode avec vérification
         function playSound() {
             var soundElement = document.querySelector("#sound-element-id");
             
@@ -306,16 +304,28 @@
             }
         }
 
-        // Fonction de mise à jour avec vérification de l'élément
         function update() {
             var elements = document.querySelectorAll(".update-elements");
 
             elements.forEach(function(element) {
                 if (element) {
-                    // Logique de mise à jour de l'élément
                 }
             });
         }
+
+        document.getElementById('start-button').addEventListener('click', function() {
+            var audio = document.getElementById('bg-music');
+            if (audio) {
+                audio.play();
+            }
+        });
+        document.getElementById('start-button').addEventListener('click', function() {
+            var audio = document.getElementById('bg-music');
+            if (audio) {
+                audio.volume = 0.5; 
+                audio.play();
+            }
+        });
     </script>
     <script src="script.js"></script>
     <script src="game.js"></script>
