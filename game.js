@@ -17,12 +17,12 @@ let tickSinceLastWhip = 0;
 let nextFood = 0;
 let gameSpeed = 3;
 let skin = 0;
-let totalSkins = 5;
+let totalSkins = 8;
 let speedCap = new Map();
 
 const dino = {
-    x: canvas.width / 3 - 15,
-    y: canvas.height - 70,
+    x: canvas.width / 3 - 100,
+    y: canvas.height - 20 - 100,
     width: 30,
     height: 30,
     velocityY: 0,
@@ -49,6 +49,10 @@ const scoreboardContainer = document.getElementById('scoreboard');
 const usernameInput = document.getElementById('username');
 const dinoDiv = document.getElementById('dino');
 const dinoSkin = document.getElementById('dinoSkin');
+const coachDiv = document.getElementById('coach');
+const coachSkin = document.getElementById('coachSkin');
+
+
 
 const gameOverContainer = document.getElementById('game-over-container');
 const gameContainer = document.getElementById('game-container');
@@ -102,6 +106,10 @@ var chargeKeyBind = 'Shift';
 const backgroundGif = new Image();
 backgroundGif.src = 'image/A3R.gif';
 
+const road = new Image();
+road.src = 'assets/road/road.png';
+let roadX = 0;
+
 const cloudImages = [
     { image: new Image(), x: canvas.width, y: 30, speed: 2 },
     { image: new Image(), x: canvas.width * 1.5, y: 80, speed: 1.5 },
@@ -112,8 +120,10 @@ cloudImages[1].image.src = 'image/img.png';
 
 const obstacleImages = [
     'image/img_1.png',
-    'image/img_1.png',
-    'image/img_1.png'
+    'assets/obstacles/city/bench2.png',
+    'assets/obstacles/city/cone.png',
+    'assets/obstacles/city/mailbox.png',
+    'assets/obstacles/city/tire.png'
 ];
 const obstacleImageObjects = obstacleImages.map(src => {
     const img = new Image();
@@ -128,8 +138,8 @@ function updateBackground() {
     if (bgX <= -canvas.width) {
         bgX = 0;
     }
-    ctx.drawImage(backgroundGif, bgX, 0, canvas.width, canvas.height);
-    ctx.drawImage(backgroundGif, bgX + canvas.width, 0, canvas.width, canvas.height);
+    ctx.drawImage(backgroundGif, bgX, 0, canvas.width, canvas.height - 100);
+    ctx.drawImage(backgroundGif, bgX + canvas.width, 0, canvas.width, canvas.height - 100);
 }
 
 function updateClouds() {
@@ -140,6 +150,16 @@ function updateClouds() {
         }
         ctx.drawImage(cloud.image, cloud.x, cloud.y, cloud.image.width * 0.5, cloud.image.height * 0.5);
     });
+}
+
+function updateRoad() {
+
+    roadX -= gameSpeed;
+    if (roadX <= -canvas.width) {
+        roadX = 0;
+    }
+    ctx.drawImage(road, roadX, canvas.height - 100, canvas.width, 100);
+    ctx.drawImage(road, roadX + canvas.width, canvas.height - 100, canvas.width, 100);
 }
 
 document.getElementById('updateKB').addEventListener('click', function (e) {
@@ -197,9 +217,9 @@ document.getElementById('charge-key').addEventListener('keydown', function (e) {
 });
 
 document.addEventListener('keydown', function (event) {
-    if (!gameRunning && event.key === 'Enter') {
-        resetGame();
-    }
+    // if (!gameRunning && event.key === 'Enter') {
+    //     resetGame();
+    // }
 
     if (event.key === chargeKeyBind) {
         dino.isChargingJump = true;
@@ -226,8 +246,8 @@ document.addEventListener('keyup', function (event) {
 
 function resetGame() {
     gameSpeed = 3;
-    dino.x = canvas.width / 3 - 15;
-    dino.y = canvas.height - dino.height;
+    dino.x = canvas.width / 3 - 15 - 100;
+    dino.y = canvas.height - dino.height - 90;
     dino.velocityY = 0;
     dino.jumps = 0;
     dino.isChargingJump = false;
@@ -238,7 +258,7 @@ function resetGame() {
     bonuses.length = 0;
     gameOverContainer.classList.add('hidden');
     scoreDisplay.textContent = 'Score: 0';
-    gameRunning = true;
+    // gameRunning = true;
     calories = 80;
     score = 0;
     tickSinceLastObstacle = 0;
@@ -246,17 +266,23 @@ function resetGame() {
     tickSinceLastFood = 0;
     nextFood = Math.floor(Math.random() * 250 + 50);
     dinoSkin.style.rotate=0+'deg';
+
+    enterToStart();
     update();
 }
 
 function gameOver() {
     const username = usernameInput.value || 'Anonyme';
-    
+
+    coachSkin.src = 'assets/sprites/coach/game_over/game_over_whip/game_over.gif';
+
     updateScoreboard(username, score);
     finalScore.textContent = 'Score: ' + score;
     gameOverContainer.classList.remove('hidden');
     dinoSkin.style.rotate = -90 + 'deg';
-    
+    dinoDiv.style.top = canvas.height - 150 + 'px';
+    dinoDiv.style.left = 30*2 + 'px';
+
     dinoSkin.style.animationPlayState = 'paused';
     gameRunning = false;
 }
@@ -278,9 +304,9 @@ function changeSkin(skin) {
     document.getElementById('select'+String(skin)).textContent = 'Selected';
     document.getElementById('select'+String(skin)).disabled = true;
     console.log('select'+String(skin));
-    
+
     dino.skinNb = skin;
-   dinoSkin.src = dino.skin;
+    dinoSkin.src = dino.skin;
 }
 
 function createShopItems() {
@@ -327,6 +353,7 @@ function updateScoreboard(username, score) {
     displayScoreboard(scoreboard);
 }
 
+
 function displayScoreboard(scoreboard) {
     scoreboardContainer.innerHTML = '<h2>Tableau des scores</h2><ul>' +
         scoreboard.map(entry => `<li>${entry.username}: ${entry.score}</li>`).join('') +
@@ -363,7 +390,7 @@ var wait = (ms) => {
     const start = Date.now();
     let now = start;
     while (now - start < ms) {
-      now = Date.now();
+        now = Date.now();
     }
 };
 
@@ -376,13 +403,15 @@ function update() {
         // Mettez à jour l'arrière-plan et les nuages
         updateBackground();
         updateClouds();
+        updateScoreboard();
+        updateRoad();
 
         dino.y += dino.velocityY;
-        if (dino.y < canvas.height - dino.height) {
+        if (dino.y < canvas.height - dino.height - 90) {
             dino.x += dino.speedBoost;
             dino.velocityY += dino.gravity;
         } else {
-            dino.y = canvas.height - dino.height;
+            dino.y = canvas.height - dino.height - 90;
             dino.velocityY = 0;
             dino.jumps = 0;
             dino.x += (dino.speed + dino.speedBoost) - gameSpeed;
@@ -405,11 +434,29 @@ function update() {
         jumpBar.style.width = (dino.jumpCharge / dino.maxJumpCharge) * 100 + '%';
 
         if (tickSinceLastObstacle > nextObstacle && Math.random() < 0.1){
-            const obstacleWidth = Math.max(Math.random() * 150, 75);
-            const obstacleHeight = obstacleWidth / 2;
-            const obstacleX = canvas.width;
-            const obstacleY = canvas.height - obstacleHeight;
             const obstacleImage = obstacleImageObjects[Math.floor(Math.random() * obstacleImageObjects.length)];
+            let obstacleWidth = 50;
+            let obstacleHeight = obstacleWidth / 2;
+            const obstacleX = canvas.width;
+            let obstacleY = canvas.height - obstacleHeight-100;
+
+            if ((obstacleImage.src).includes('bench')) {
+                obstacleWidth = 98;
+                obstacleHeight = 58;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('mail')) {
+                obstacleWidth = 40;
+                obstacleHeight = 66;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('cone')) {
+                obstacleWidth = 46;
+                obstacleHeight = 54;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('tire')) {
+                obstacleWidth = 53;
+                obstacleHeight = 36;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            }
 
             obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight, image: obstacleImage });
             tickSinceLastObstacle = 0;
@@ -422,7 +469,7 @@ function update() {
             const path = getRandomBonusItem(bonusType);
             bonuses.push({
                 x: canvas.width,
-                y: (canvas.height * 0.4) + Math.random() * (canvas.height * 0.5 - 75),
+                y: (canvas.height * 0.4) + Math.random() * (canvas.height * 0.5 - 75)-100,
                 width: 75,
                 height: 75,
                 type: bonusType,
@@ -538,5 +585,70 @@ function update() {
 restartButton.addEventListener('click', resetGame);
 document.cookie = "points=0";
 createShopItems();
-update();
+// update();
+
+function enterToStart() {
+    updateBackground();
+    updateClouds();
+    updateRoad();
+
+
+    let k = 1;
+    coachSkin.src = 'assets/sprites/coach/standing.gif';
+    let replique1 = 'Je te prends encore en train de manger des cochonneries ?';
+    let replique2 = 'Tu vas gâcher tout ton entraînement ! Attends un peu que je t\'attrape !';
+
+    // Freezes the player's movement and gif animation
+    // gameRunning = false;
+    dinoSkin.style.animationPlayState = 'paused';
+
+
+    // Créer une bulle de dialogue au-dessus du coach
+    const bubble = document.createElement('div');
+    const bubbleArrow = document.createElement('div');
+    bubble.id = 'coach-speech-bubble';
+    bubble.className = 'speech-bubble';
+    bubble.textContent = replique1;
+    bubble.style.position = 'absolute';
+    bubble.style.top = -40 + 'px';
+    bubble.style.left = coachDiv.offsetLeft + 50 + 'px';
+    bubbleArrow.className = 'speech-bubble-arrow';
+    dino.x = canvas.width / 3 - 15 - 50;
+    dino.y = canvas.height - 30 - 90;
+    dinoDiv.style.left = (dino.x - 50) + 'px';
+    dinoDiv.style.top = (dino.y - 35) + 'px';
+
+    bubble.appendChild(bubbleArrow);
+
+    coachDiv.appendChild(bubble);
+
+
+    document.addEventListener('keydown', function (event) {
+        if (k === 1) {
+            // Retourner l'image du Dino sur son axe Y (le faire regarder vers la gauche)
+            dinoSkin.style.transform = 'scaleX(-1)';
+            k++;
+            // Effacer la bulle de dialogue du coach
+            bubbleArrow.style.display = 'none';
+            bubble.style.display = 'none';
+        } else if (k === 2) {
+            // Remettre la bulle de dialogue du coach
+            bubble.textContent = replique2;
+            bubbleArrow.style.display = 'block';
+            bubble.style.display = 'block';
+            k++;
+
+        } else if ((k === 3)) {
+            coachSkin.src = 'assets/sprites/whipandcoach/chicotte.gif';
+            dinoSkin.style.transform = 'scaleX(1)';
+            bubble.style.display = 'none';
+
+            gameRunning = true;
+            k = 0;
+            update();
+        }
+    });
+
+    // gameRunning = true;
+}
 
