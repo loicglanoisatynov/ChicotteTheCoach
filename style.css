@@ -613,3 +613,39 @@ body {
     transform: scale(0.95);
 }
 
+
+#coach{
+    position: absolute;
+    top: calc(100% - 185px);
+    left: 10px;
+    height: 100px;
+    width: 100px;
+}
+
+#coach img{
+    height: 100%;
+    width: 100%;
+}
+
+.speech-bubble {
+    position: relative;
+    background: #f9f9f9;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    width: 200px;
+}
+
+.speech-bubble-arrow {
+    position: relative;
+    /* Pivoter la div de 45 degrés */
+    transform: rotate(45deg);
+    width: 20px;
+    height: 20px;
+    background: #f9f9f9;
+    border: 2px solid #000;
+    border-top: none;
+    border-right: none;
+    left: -22px;
+    top: -10px;
+}

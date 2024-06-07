@@ -1,0 +1,43 @@
+1 (32 secondes)
+
+- a
+- b
+- c
+- b
+- d
+- c
+- d
+- a
+
+2 (32 secondes)
+
+- a
+- b
+- c
+- b
+- d
+- c
+- d
+- a
+
+3 (32 secondes)
+
+- a
+- b
+- c
+- b
+- d
+- c
+- d
+- a
+
+2-bis (32 secondes)
+
+- a
+- b
+- c
+- b
+- d
+- c
+- d
+- a
