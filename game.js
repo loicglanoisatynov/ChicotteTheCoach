@@ -16,7 +16,7 @@ let tickSinceLastFood = 0;
 let nextFood = 0;
 let gameSpeed = 3;
 let skin = 0;
-let totalSkins = 8;
+let totalSkins = 5;
 let speedCap = new Map();
 
 const dino = {
@@ -272,14 +272,14 @@ function gameOver() {
     const username = usernameInput.value || 'Anonyme';
 
     coachSkin.src = 'assets/sprites/coach/game_over/game_over_whip/game_over.gif';
-    
+
     updateScoreboard(username, score);
     finalScore.textContent = 'Score: ' + score;
     gameOverContainer.classList.remove('hidden');
     dinoSkin.style.rotate = -90 + 'deg';
     dinoDiv.style.top = canvas.height - 150 + 'px';
     dinoDiv.style.left = 30*2 + 'px';
-    
+
     dinoSkin.style.animationPlayState = 'paused';
     gameRunning = false;
 }
@@ -301,9 +301,9 @@ function changeSkin(skin) {
     document.getElementById('select'+String(skin)).textContent = 'Selected';
     document.getElementById('select'+String(skin)).disabled = true;
     console.log('select'+String(skin));
-    
+
     dino.skinNb = skin;
-   dinoSkin.src = dino.skin;
+    dinoSkin.src = dino.skin;
 }
 
 function createShopItems() {
@@ -387,7 +387,7 @@ var wait = (ms) => {
     const start = Date.now();
     let now = start;
     while (now - start < ms) {
-      now = Date.now();
+        now = Date.now();
     }
 };
 
@@ -608,7 +608,7 @@ function enterToStart() {
     dinoDiv.style.top = (dino.y - 35) + 'px';
 
     bubble.appendChild(bubbleArrow);
-    
+
     coachDiv.appendChild(bubble);
 
 
@@ -626,7 +626,7 @@ function enterToStart() {
             bubbleArrow.style.display = 'block';
             bubble.style.display = 'block';
             k++;
-            
+
         } else if ((k === 3)) {
             coachSkin.src = 'assets/sprites/whipandcoach/chicotte.gif';
             dinoSkin.style.transform = 'scaleX(1)';
