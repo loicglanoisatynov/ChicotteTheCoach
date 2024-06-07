@@ -356,6 +356,14 @@ function getCookies(name) {
     return '';
 }
 
+var wait = (ms) => {
+    const start = Date.now();
+    let now = start;
+    while (now - start < ms) {
+      now = Date.now();
+    }
+};
+
 function update() {
     if (gameRunning) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -373,6 +381,9 @@ function update() {
             dino.velocityY = 0;
             dino.jumps = 0;
             dino.x += (dino.speed + dino.speedBoost) - gameSpeed;
+            if (dino.x > canvas.width) {
+                dino.x = canvas.width;
+            }
         }
         ctx.color = 'black';
         // ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
@@ -397,7 +408,7 @@ function update() {
 
             obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight, image: obstacleImage });
             tickSinceLastObstacle = 0;
-            nextObstacle = Math.floor(Math.random() * 200 + 20);
+            nextObstacle = Math.floor(Math.random() * 200 + 100);
         }
         tickSinceLastObstacle++;
 
@@ -509,6 +520,7 @@ function update() {
 
         frame++;
     }
+    wait(1)
     requestAnimationFrame(update);
 }
 
