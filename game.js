@@ -245,7 +245,7 @@ document.addEventListener('keyup', function (event) {
 });
 
 function resetGame() {
-    gameSpeed = 3;
+    gameSpeed = 10;
     dino.x = canvas.width / 3 - 15 - 100;
     dino.y = canvas.height - dino.height - 90;
     dino.velocityY = 0;
@@ -434,7 +434,7 @@ function update() {
         }
         jumpBar.style.width = (dino.jumpCharge / dino.maxJumpCharge) * 100 + '%';
 
-        if (tickSinceLastObstacle > nextObstacle && Math.random() < 0.1){
+        if (tickSinceLastObstacle > nextObstacle && Math.random() < 0.4){
             const obstacleImage = obstacleImageObjects[Math.floor(Math.random() * obstacleImageObjects.length)];
             let obstacleWidth = 50;
             let obstacleHeight = obstacleWidth / 2;
@@ -461,7 +461,7 @@ function update() {
 
             obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight, image: obstacleImage });
             tickSinceLastObstacle = 0;
-            nextObstacle = Math.floor(Math.random() * 200 + 200);
+            nextObstacle = Math.floor(Math.random() * 50 + 50);
         }
         tickSinceLastObstacle++;
 
