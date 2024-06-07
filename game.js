@@ -13,10 +13,11 @@ let gameRunning = false;
 let tickSinceLastObstacle = 0;
 let nextObstacle = 0;
 let tickSinceLastFood = 0;
+let tickSinceLastWhip = 0;
 let nextFood = 0;
-let gameSpeed = 3;
+let gameSpeed = 5;
 let skin = 0;
-let totalSkins = 5;
+let totalSkins = 8;
 let speedCap = new Map();
 
 const dino = {
@@ -109,6 +110,8 @@ const jumpSound = document.getElementById('jump-sound');
 const buffSound = document.getElementById('buff-sound');
 const debuffSound = document.getElementById('debuff-sound');
 const hitSound = document.getElementById('hit-sound');
+const whipSound = document.getElementById('whip-sound');
+whipSound.volume = 0.2;
 
 const mainMenu = document.getElementById('main-menu');
 
@@ -319,6 +322,7 @@ function resetGame() {
     nextFood = Math.floor(Math.random() * 250 + 50);
     dinoSkin.style.rotate=0+'deg';
 
+    console.log(gameSpeed);
     enterToStart();
     update();
 }
@@ -334,7 +338,7 @@ function gameOver() {
     dinoSkin.style.rotate = -90 + 'deg';
     dinoDiv.style.top = canvas.height - 150 + 'px';
     dinoDiv.style.left = 30*2 + 'px';
-    
+
     dinoSkin.style.animationPlayState = 'paused';
     gameRunning = false;
 }
@@ -356,9 +360,9 @@ function changeSkin(skin) {
     document.getElementById('select'+String(skin)).textContent = 'Selected';
     document.getElementById('select'+String(skin)).disabled = true;
     console.log('select'+String(skin));
-    
+
     dino.skinNb = skin;
-   dinoSkin.src = dino.skin;
+    dinoSkin.src = dino.skin;
 }
 
 function createShopItems() {
@@ -442,9 +446,11 @@ var wait = (ms) => {
     const start = Date.now();
     let now = start;
     while (now - start < ms) {
-      now = Date.now();
+        now = Date.now();
     }
 };
+
+
 
 function update() {
     if (gameRunning) {
@@ -572,7 +578,7 @@ function update() {
 
             obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight, image: obstacleImage });
             tickSinceLastObstacle = 0;
-            nextObstacle = Math.floor(Math.random() * 200 + 100);
+            nextObstacle = Math.floor(Math.random() * 200 + 200);
         }
         tickSinceLastObstacle++;
 
@@ -587,11 +593,16 @@ function update() {
                 type: bonusType,
                 path: path
             });
-            console.log('Creating bonus', bonusType, path)
             tickSinceLastFood = 0;
             nextFood = Math.floor(Math.random() * 250 + 50);
         }
         tickSinceLastFood++;
+
+        if (tickSinceLastWhip > 2000) {
+            playSound(whipSound);
+            tickSinceLastWhip = 0;
+        }
+        tickSinceLastWhip++;
 
         for (let i = obstacles.length - 1; i >= 0; i--) {
             obstacles[i].x -= gameSpeed;
@@ -683,9 +694,9 @@ function update() {
         calorieBar.style.width = calories + '%';
 
         frame++;
+        wait(1)
+        requestAnimationFrame(update);
     }
-    wait(1)
-    requestAnimationFrame(update);
 }
 
 restartButton.addEventListener('click', resetGame);
@@ -727,7 +738,7 @@ function enterToStart() {
     gibberish.play();
 
     bubble.appendChild(bubbleArrow);
-    
+
     coachDiv.appendChild(bubble);
 
 
@@ -748,7 +759,7 @@ function enterToStart() {
             bubbleArrow.style.display = 'block';
             bubble.style.display = 'block';
             k++;
-            gibberish.play();
+            
         } else if ((k === 3)) {
             coachSkin.src = 'assets/sprites/whipandcoach/chicotte.gif';
             dinoSkin.style.transform = 'scaleX(1)';
