@@ -96,6 +96,19 @@
     <img src="/image/Menu/Micheal.gif" id="bottom-left-gif" alt="Animated GIF">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        const foodImages = [
+            'image/Menu/apple.png',
+            'image/Menu/boiledegg.png',
+            'image/Menu/lettuce.png',
+            'image/Menu/salad.png',
+            'image/Menu/banana.png',
+            'image/Menu/watermelon.png'
+        ];
+
+        function getRandomFoodImage() {
+            return foodImages[Math.floor(Math.random() * foodImages.length)];
+        }
+
         particlesJS('particles-js', {
             "particles": {
                 "number": {
@@ -105,17 +118,12 @@
                         "value_area": 800
                     }
                 },
-                "color": {
-                    "value": "#ffffff"
-                },
                 "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
+                    "type": "image",
+                    "image": {
+                        "src": getRandomFoodImage(),
+                        "width": 100,
+                        "height": 100
                     }
                 },
                 "opacity": {
@@ -129,7 +137,7 @@
                     }
                 },
                 "size": {
-                    "value": 3,
+                    "value": 20,
                     "random": true,
                     "anim": {
                         "enable": false,
@@ -212,7 +220,7 @@
                 img.classList.add('food-icon');
                 img.style.top = Math.random() * 100 + 'vh';
                 img.style.left = Math.random() * 100 + 'vw';
-                // foodIconsContainer.appendChild(img);
+                foodIconsContainer.appendChild(img);
 
                 function moveFoodIcon() {
                     img.style.top = Math.random() * 100 + 'vh';
@@ -292,8 +300,6 @@
                 });
             }
         });
-
-        // Exemple d'utilisation de cloneNode avec vérification
         function playSound() {
             var soundElement = document.querySelector("#sound-element-id");
             
@@ -305,14 +311,11 @@
                 console.error("Sound element not found!");
             }
         }
-
-        // Fonction de mise à jour avec vérification de l'élément
         function update() {
             var elements = document.querySelectorAll(".update-elements");
 
             elements.forEach(function(element) {
                 if (element) {
-                    // Logique de mise à jour de l'élément
                 }
             });
         }
