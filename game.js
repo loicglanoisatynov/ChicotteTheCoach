@@ -13,6 +13,7 @@ let gameRunning = false;
 let tickSinceLastObstacle = 0;
 let nextObstacle = 0;
 let tickSinceLastFood = 0;
+let tickSinceLastWhip = 0;
 let nextFood = 0;
 let gameSpeed = 3;
 let skin = 0;
@@ -66,6 +67,8 @@ const jumpSound = document.getElementById('jump-sound');
 const buffSound = document.getElementById('buff-sound');
 const debuffSound = document.getElementById('debuff-sound');
 const hitSound = document.getElementById('hit-sound');
+const whipSound = document.getElementById('whip-sound');
+whipSound.volume = 0.5;
 
 const mainMenu = document.getElementById('main-menu');
 
@@ -364,6 +367,8 @@ var wait = (ms) => {
     }
 };
 
+
+
 function update() {
     if (gameRunning) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -408,7 +413,7 @@ function update() {
 
             obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight, image: obstacleImage });
             tickSinceLastObstacle = 0;
-            nextObstacle = Math.floor(Math.random() * 200 + 100);
+            nextObstacle = Math.floor(Math.random() * 200 + 200);
         }
         tickSinceLastObstacle++;
 
@@ -428,6 +433,12 @@ function update() {
             nextFood = Math.floor(Math.random() * 250 + 50);
         }
         tickSinceLastFood++;
+
+        if (tickSinceLastWhip > 1500) {
+            playSound(whipSound);
+            tickSinceLastWhip = 0;
+        }
+        tickSinceLastWhip++;
 
         for (let i = obstacles.length - 1; i >= 0; i--) {
             obstacles[i].x -= gameSpeed;
