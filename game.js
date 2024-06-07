@@ -72,7 +72,7 @@ const buffSound = document.getElementById('buff-sound');
 const debuffSound = document.getElementById('debuff-sound');
 const hitSound = document.getElementById('hit-sound');
 const whipSound = document.getElementById('whip-sound');
-whipSound.volume = 0.5;
+whipSound.volume = 0.2;
 
 const mainMenu = document.getElementById('main-menu');
 
@@ -267,6 +267,7 @@ function resetGame() {
     nextFood = Math.floor(Math.random() * 250 + 50);
     dinoSkin.style.rotate=0+'deg';
 
+    console.log(gameSpeed);
     enterToStart();
     update();
 }
@@ -475,13 +476,12 @@ function update() {
                 type: bonusType,
                 path: path
             });
-            console.log('Creating bonus', bonusType, path)
             tickSinceLastFood = 0;
             nextFood = Math.floor(Math.random() * 250 + 50);
         }
         tickSinceLastFood++;
 
-        if (tickSinceLastWhip > 1500) {
+        if (tickSinceLastWhip > 150) {
             playSound(whipSound);
             tickSinceLastWhip = 0;
         }
@@ -577,9 +577,9 @@ function update() {
         calorieBar.style.width = calories + '%';
 
         frame++;
+        wait(1)
+        requestAnimationFrame(update);
     }
-    wait(1)
-    requestAnimationFrame(update);
 }
 
 restartButton.addEventListener('click', resetGame);
