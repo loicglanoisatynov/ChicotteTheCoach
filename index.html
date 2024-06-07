@@ -49,6 +49,7 @@
             <button id="close-credits-button" onclick="returnMain()">Retour au menu</button>
         </div>
     </div>
+    
     <div id="input-container" class="hidden">
         <h2 class="options">Changer les touches</h2>
         <div class="option-row">
@@ -324,6 +325,12 @@
             if (audio) {
                 audio.volume = 0.5; 
                 audio.play();
+            }
+        });
+        document.getElementById('close-credits-button').addEventListener('click', function() {
+            var audio = document.getElementById('bg-music');
+            if (audio) {
+                audio.pause();
             }
         });
     </script>
