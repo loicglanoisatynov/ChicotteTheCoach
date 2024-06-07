@@ -40,6 +40,45 @@ const dino = {
     skinNb: 1
 };
 
+const gibberish = document.querySelector("audio");
+
+
+/*
+car10_79x57.png
+car11_86x64.png
+car12_90x59.png
+car13_92x65.png
+car14_139x73.png
+car15_126x82.png
+car1_62x51.png
+car2_68x60.png
+car3_76x55.png
+car4_81x54.png
+car5_79x57.png
+car6_82x58.png
+car7_83x54.png
+car8_88x51.png
+car9_88x58.png
+*/
+
+const cars = [
+    'assets/obstacles/city/car1_62x51.png',
+    'assets/obstacles/city/car2_68x60.png',
+    'assets/obstacles/city/car3_76x55.png',
+    'assets/obstacles/city/car4_81x54.png',
+    'assets/obstacles/city/car5_79x57.png',
+    'assets/obstacles/city/car6_82x58.png',
+    'assets/obstacles/city/car7_83x54.png',
+    'assets/obstacles/city/car8_88x51.png',
+    'assets/obstacles/city/car9_88x58.png',
+    'assets/obstacles/city/car10_79x57.png',
+    'assets/obstacles/city/car11_86x64.png',
+    'assets/obstacles/city/car12_90x59.png',
+    'assets/obstacles/city/car13_92x65.png',
+    'assets/obstacles/city/car14_139x73.png',
+    'assets/obstacles/city/car15_126x82.png'
+];
+
 const calorieBar = document.getElementById('calorie-bar');
 const jumpBar = document.getElementById('jump-bar');
 const scoreDisplay = document.getElementById('score');
@@ -116,11 +155,27 @@ cloudImages[0].image.src = 'image/img.png';
 cloudImages[1].image.src = 'image/img.png';
 
 const obstacleImages = [
-    'image/img_1.png',
+    // 'image/img_1.png',
     'assets/obstacles/city/bench2.png',
     'assets/obstacles/city/cone.png',
     'assets/obstacles/city/mailbox.png',
-    'assets/obstacles/city/tire.png'
+    'assets/obstacles/city/tire.png',
+    'assets/obstacles/city/car1_62x51.png',
+    'assets/obstacles/city/car2_68x60.png',
+    'assets/obstacles/city/car3_76x55.png',
+    'assets/obstacles/city/car4_81x54.png',
+    'assets/obstacles/city/car5_79x57.png',
+    'assets/obstacles/city/car6_82x58.png',
+    'assets/obstacles/city/car7_83x54.png',
+    'assets/obstacles/city/car8_88x51.png',
+    'assets/obstacles/city/car9_88x58.png',
+    'assets/obstacles/city/car10_79x57.png',
+    'assets/obstacles/city/car11_86x64.png',
+    'assets/obstacles/city/car12_90x59.png',
+    'assets/obstacles/city/car13_92x65.png',
+    'assets/obstacles/city/car14_139x73.png',
+    'assets/obstacles/city/car15_126x82.png'
+
 ];
 const obstacleImageObjects = obstacleImages.map(src => {
     const img = new Image();
@@ -272,7 +327,7 @@ function gameOver() {
     const username = usernameInput.value || 'Anonyme';
 
     coachSkin.src = 'assets/sprites/coach/game_over/game_over_whip/game_over.gif';
-    
+    gibberish.play();
     updateScoreboard(username, score);
     finalScore.textContent = 'Score: ' + score;
     gameOverContainer.classList.remove('hidden');
@@ -451,6 +506,68 @@ function update() {
                 obstacleWidth = 53;
                 obstacleHeight = 36;
                 obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car1_')) {
+                obstacleWidth = 62;
+                obstacleHeight = 51;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car2_')) {
+                obstacleWidth = 68;
+                obstacleHeight = 60;
+                obstacleY = canvas.height - obstacleHeight - 90;
+                
+            } else if ((obstacleImage.src).includes('car3_')) {
+                obstacleWidth = 76;
+                obstacleHeight = 55;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car4_')) {
+                obstacleWidth = 81;
+                obstacleHeight = 54;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car5_')) {
+                obstacleWidth = 79;
+                obstacleHeight = 57;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car6_')) {
+                obstacleWidth = 82;
+                obstacleHeight = 58;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car7_')) {
+                obstacleWidth = 83;
+                obstacleHeight = 54;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car8_')) {
+                obstacleWidth = 88;
+                obstacleHeight = 51;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car9_')) {
+                obstacleWidth = 88;
+                obstacleHeight = 58;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car10')) {
+                obstacleWidth = 79;
+                obstacleHeight = 57;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car11')) {
+                obstacleWidth = 86;
+                obstacleHeight = 64;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car12')) {
+                obstacleWidth = 90;
+                obstacleHeight = 59;
+                obstacleY = canvas.height - obstacleHeight - 90;
+                
+            } else if ((obstacleImage.src).includes('car13')) {
+                obstacleWidth = 92;
+                obstacleHeight = 65;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car14')) {
+                obstacleWidth = 139;
+                obstacleHeight = 73;
+                obstacleY = canvas.height - obstacleHeight - 90;
+            } else if ((obstacleImage.src).includes('car15')) {
+                obstacleWidth = 126;
+                obstacleHeight = 82;
+                obstacleY = canvas.height - obstacleHeight - 90;
             }
 
             obstacles.push({ x: obstacleX, y: obstacleY, width: obstacleWidth, height: obstacleHeight, image: obstacleImage });
@@ -607,6 +724,8 @@ function enterToStart() {
     dinoDiv.style.left = (dino.x - 50) + 'px';
     dinoDiv.style.top = (dino.y - 35) + 'px';
 
+    gibberish.play();
+
     bubble.appendChild(bubbleArrow);
     
     coachDiv.appendChild(bubble);
@@ -620,13 +739,16 @@ function enterToStart() {
             // Effacer la bulle de dialogue du coach
             bubbleArrow.style.display = 'none';
             bubble.style.display = 'none';
+            // Arrêter la piste audio
+            gibberish.pause();
+            gibberish.currentTime = 0;
         } else if (k === 2) {
             // Remettre la bulle de dialogue du coach
             bubble.textContent = replique2;
             bubbleArrow.style.display = 'block';
             bubble.style.display = 'block';
             k++;
-            
+            gibberish.play();
         } else if ((k === 3)) {
             coachSkin.src = 'assets/sprites/whipandcoach/chicotte.gif';
             dinoSkin.style.transform = 'scaleX(1)';
@@ -634,6 +756,8 @@ function enterToStart() {
 
             gameRunning = true;
             k = 0;
+            gibberish.pause();
+            gibberish.currentTime = 0;
             update();
         }
     });
@@ -641,3 +765,11 @@ function enterToStart() {
     // gameRunning = true;
 }
 
+// document.addEventListener('keydown', function (event) {
+//     if (gameRunning && event.key === 'Escape') {
+//         gameRunning = false;
+//         inputContainer.classList.toggle('hidden');
+//     } else if (!gameRunning && event.key === 'Enter') {
+//         resetGame();
+//     }
+// }
