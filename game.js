@@ -16,7 +16,7 @@ let tickSinceLastFood = 0;
 let nextFood = 0;
 let gameSpeed = 3;
 let skin = 0;
-let totalSkins = 5;
+let totalSkins = 8;
 let speedCap = new Map();
 
 const dino = {
