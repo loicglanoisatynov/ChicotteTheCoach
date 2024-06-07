@@ -15,7 +15,7 @@ let nextObstacle = 0;
 let tickSinceLastFood = 0;
 let tickSinceLastWhip = 0;
 let nextFood = 0;
-let gameSpeed = 3;
+let gameSpeed = 5;
 let skin = 0;
 let totalSkins = 8;
 let speedCap = new Map();
@@ -481,7 +481,7 @@ function update() {
         }
         tickSinceLastFood++;
 
-        if (tickSinceLastWhip > 150) {
+        if (tickSinceLastWhip > 2000) {
             playSound(whipSound);
             tickSinceLastWhip = 0;
         }
